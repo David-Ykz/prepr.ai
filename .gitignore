@@ -1,2 +1,4 @@
 /backend/node_modules/
 *.xml
+*.xml
+backend/.idea/workspace.xml
