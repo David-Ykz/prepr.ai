@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navbar, Card } from "react-bootstrap";
 
 const navbarStyle = {
@@ -28,37 +28,67 @@ const promptStyle = {
     fontSize: '20px',
     fontFamily: 'Times New Roman',
 }
-let prompt = getRandomPrompt();
-
-function getRandomPrompt() {
-    const url = "http://localhost:8000/message";
-    fetch(url)
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data.message);
-            prompt = data.message;
-
-        })
-}
-
-
-
-
 
 function DisplayPrompt() {
+    const [prompt, setPrompt] = useState("");
+    function getRandomPrompt() {
+        const url = "http://localhost:8000/message";
+        fetch(url)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data.message);
+                setPrompt(data.message);
+            })
+    }
+    useEffect(() => {
+        getRandomPrompt();
+    }, []);
     document.body.style = 'background: #edf0f5ff;';
-
     return (
         <div className="DisplayPrompt">
             <Navbar style={navbarStyle}>
                 <Navbar.Brand>Website Name</Navbar.Brand>
-            </Navbar>
-            <Card style={cardStyle}>
-                <p className="card-text" style={promptStyle}>{prompt}</p>
-            </Card>
-            <p>Other text</p>
-        </div>
+                </Navbar>
+                <Card style={cardStyle}>
+                    <p className="card-text" style={promptStyle}>{prompt}</p>
+                </Card>
+                <p>Other text</p>
+            </div>
     )
 }
 
 export default DisplayPrompt;
+
+
+
+
+
+// class DisplayPrompt extends React.Component {
+//     constructor(props) {
+//         super(props);
+//         let prompt = getRandomPrompt();
+//         document.body.style = 'background: #edf0f5ff;';
+//     }
+//     function getRandomPrompt() {
+//         const url = "http://localhost:8000/message";
+//         fetch(url)
+//             .then((response) => response.json())
+//             .then((data) => {
+//                 console.log(data.message);
+//                 prompt = data.message;
+//             })
+//     }
+//     render() {
+//         return (
+//             <div className="DisplayPrompt">
+//                 <Navbar style={navbarStyle}>
+//                     <Navbar.Brand>Website Name</Navbar.Brand>
+//                 </Navbar>
+//                 <Card style={cardStyle}>
+//                     <p className="card-text" style={promptStyle}>{prompt}</p>
+//                 </Card>
+//                 <p>Other text</p>
+//             </div>
+//         )
+//     }
+// }
