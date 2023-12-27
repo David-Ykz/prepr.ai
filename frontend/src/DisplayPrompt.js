@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Navbar, Card } from "react-bootstrap";
+import { Navbar, Card, Button } from "react-bootstrap";
 
 const navbarStyle = {
     backgroundColor: 'white',
@@ -28,6 +28,13 @@ const promptStyle = {
     fontSize: '20px',
     fontFamily: 'Times New Roman',
 }
+const buttonStyle = {
+    backgroundColor: '#70a6ffff',
+    borderRadius: '7px',
+    border: 'none',
+    fontSize: '16px',
+    margin: '0 auto'
+}
 
 function DisplayPrompt() {
     const [prompt, setPrompt] = useState("");
@@ -51,6 +58,7 @@ function DisplayPrompt() {
                 </Navbar>
                 <Card style={cardStyle}>
                     <p className="card-text" style={promptStyle}>{prompt}</p>
+                    <Button style={buttonStyle} onClick={getRandomPrompt}>Next Question</Button>
                 </Card>
                 <p>Other text</p>
             </div>
