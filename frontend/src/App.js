@@ -1,5 +1,6 @@
 import './App.css';
 import DisplayPrompt from './DisplayPrompt';
+import AudioRecorder from "./AudioRecorder";
 
 
 function App() {

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Navbar, Card, Button } from "react-bootstrap";
+import AudioRecorder from "./AudioRecorder";
 
 const navbarStyle = {
     backgroundColor: 'white',
@@ -32,6 +33,7 @@ const promptStyle = {
 }
 const buttonStyle = {
     backgroundColor: '#70a6ffff',
+    color: 'white',
     borderRadius: '7px',
     border: 'none',
     fontSize: '16px',
@@ -59,12 +61,10 @@ function DisplayPrompt() {
                 <Navbar.Brand>Website Name</Navbar.Brand>
                 </Navbar>
                 <Card style={cardStyle}>
-                    <div className="row">
-                        <p className="card-text" style={promptStyle}>{prompt}</p>
-                    </div>
-                    <div className="row">
-                        <Button style={buttonStyle} onClick={getRandomPrompt}>Next Question</Button>
-                    </div>
+                    <p className="card-text" style={promptStyle}>{prompt}</p>
+                    <Button style={buttonStyle} onClick={getRandomPrompt}>Next Question</Button>
+                    <AudioRecorder />
+                    <Button style={buttonStyle} onClick={getRandomPrompt}>Send Recording Data</Button>
                 </Card>
                 <p>Other text</p>
             </div>
@@ -72,37 +72,3 @@ function DisplayPrompt() {
 }
 
 export default DisplayPrompt;
-
-
-
-
-
-// class DisplayPrompt extends React.Component {
-//     constructor(props) {
-//         super(props);
-//         let prompt = getRandomPrompt();
-//         document.body.style = 'background: #edf0f5ff;';
-//     }
-//     function getRandomPrompt() {
-//         const url = "http://localhost:8000/message";
-//         fetch(url)
-//             .then((response) => response.json())
-//             .then((data) => {
-//                 console.log(data.message);
-//                 prompt = data.message;
-//             })
-//     }
-//     render() {
-//         return (
-//             <div className="DisplayPrompt">
-//                 <Navbar style={navbarStyle}>
-//                     <Navbar.Brand>Website Name</Navbar.Brand>
-//                 </Navbar>
-//                 <Card style={cardStyle}>
-//                     <p className="card-text" style={promptStyle}>{prompt}</p>
-//                 </Card>
-//                 <p>Other text</p>
-//             </div>
-//         )
-//     }
-// }
