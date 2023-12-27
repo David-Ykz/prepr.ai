@@ -1,16 +1,6 @@
 import './App.css';
 import DisplayPrompt from './DisplayPrompt';
 
-function sendData() {
-    fetch("http://localhost:8000/message")
-        .then((res) => res.json())
-        .then((data) => setMessage(data.message));
-}
-
-function setMessage(message) {
-    console.log(message);
-}
-
 
 function App() {
   return (
