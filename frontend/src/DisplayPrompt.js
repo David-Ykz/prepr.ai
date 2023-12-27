@@ -27,13 +27,15 @@ const promptStyle = {
     color: 'black',
     fontSize: '20px',
     fontFamily: 'Times New Roman',
+    alignSelf: 'flex-end',
+    minHeight: 100
 }
 const buttonStyle = {
     backgroundColor: '#70a6ffff',
     borderRadius: '7px',
     border: 'none',
     fontSize: '16px',
-    margin: '0 auto'
+//    marginTop: 50,
 }
 
 function DisplayPrompt() {
@@ -57,8 +59,12 @@ function DisplayPrompt() {
                 <Navbar.Brand>Website Name</Navbar.Brand>
                 </Navbar>
                 <Card style={cardStyle}>
-                    <p className="card-text" style={promptStyle}>{prompt}</p>
-                    <Button style={buttonStyle} onClick={getRandomPrompt}>Next Question</Button>
+                    <div className="row">
+                        <p className="card-text" style={promptStyle}>{prompt}</p>
+                    </div>
+                    <div className="row">
+                        <Button style={buttonStyle} onClick={getRandomPrompt}>Next Question</Button>
+                    </div>
                 </Card>
                 <p>Other text</p>
             </div>
