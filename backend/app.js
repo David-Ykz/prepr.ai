@@ -13,6 +13,14 @@ app.get("/message", (request, response) => {
     })
 });
 
+app.post("/audiomessage", (request, response) => {
+    console.log("received data");
+    console.log(request.body);
+    response.send(request.body);
+});
+
+
+
 app.listen(8000, () => {
     console.log(`Server is running on port 8000.`);
 });

@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import { Button } from "react-bootstrap";
-
-
+import axios from "axios";
 
 const AudioRecorder = () => {
     const microphoneButtonStyle = {
@@ -67,6 +66,21 @@ const AudioRecorder = () => {
             setAudioChunks([]);
         };
     };
+    function sendRecordingData() {
+        const postData = {audioData: audio};
+
+        axios({
+            url: "http://localhost:8000/audiomessage",
+            method: "POST",
+            data: postData,
+        })
+            .then((res) => {
+                console.log("returned message");
+            })
+            .catch((err) => {});
+    }
+
+
 
     return (
         <div>
@@ -88,6 +102,9 @@ const AudioRecorder = () => {
                 ) : null}
                 {audio ? (
                     <div className="audio-container">
+                        <Button onClick={sendRecordingData} style={microphoneButtonStyle}>
+                            Send Audio Data
+                        </Button>
                         <audio src={audio} controls></audio>
                         <a download href={audio}>
                             Download Recording

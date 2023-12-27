@@ -64,7 +64,6 @@ function DisplayPrompt() {
                     <p className="card-text" style={promptStyle}>{prompt}</p>
                     <Button style={buttonStyle} onClick={getRandomPrompt}>Next Question</Button>
                     <AudioRecorder />
-                    <Button style={buttonStyle} onClick={getRandomPrompt}>Send Recording Data</Button>
                 </Card>
                 <p>Other text</p>
             </div>
