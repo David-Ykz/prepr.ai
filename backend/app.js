@@ -1,10 +1,14 @@
-import OpenAI from "openai";
+require('dotenv').config();
 
 const express = require("express");
 const cors = require("cors");
 const app = express();
 const db = require("./postgres-config");
-const openai = new OpenAI();
+const { OpenAI } = require('openai');
+
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY
+});
 
 async function gptQuery(query) {
     const completion = await openai.chat.completions.create({
@@ -13,8 +17,6 @@ async function gptQuery(query) {
     });
     console.log(completion.choices[0]);
 }
-
-
 
 
 app.use(cors());
