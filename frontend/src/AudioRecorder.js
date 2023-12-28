@@ -1,8 +1,12 @@
 import { useState, useRef } from "react";
 import { Button } from "react-bootstrap";
 import axios from "axios";
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+
+
 
 const AudioRecorder = () => {
+    const {transcript} = useSpeechRecognition();
     const microphoneButtonStyle = {
         backgroundColor: '#70a6ffff',
         color: 'white',
@@ -53,6 +57,8 @@ const AudioRecorder = () => {
         setAudioChunks(localAudioChunks);
     };
     const stopRecording = () => {
+        // eslint-disable-next-line no-unused-expressions
+        SpeechRecognition.stopListening;
         setRecordingStatus("inactive");
         //stops the recording instance
         mediaRecorder.current.stop();
@@ -62,12 +68,12 @@ const AudioRecorder = () => {
             //creates a playable URL from the blob file.
             const audioUrl = URL.createObjectURL(audioBlob);
             setAudio(audioUrl);
-            console.log(audio);
             setAudioChunks([]);
         };
     };
     function sendRecordingData() {
-        const postData = {audioData: audio};
+        console.log(transcript);
+        const postData = {audioData: transcript};
 
         axios({
             url: "http://localhost:8000/audiomessage",
@@ -91,12 +97,18 @@ const AudioRecorder = () => {
                     </Button>
                 ) : null}
                 {permission && recordingStatus === "inactive" ? (
-                    <Button onClick={startRecording} style={microphoneButtonStyle}>
+                    <Button onClick={() => {
+                        startRecording();
+                        SpeechRecognition.startListening();
+                    }} style={microphoneButtonStyle}>
                         Start Recording
                     </Button>
                 ) : null}
                 {recordingStatus === "recording" ? (
-                    <Button onClick={stopRecording} style={microphoneButtonStyle}>
+                    <Button onClick={() => {
+                        stopRecording();
+                        SpeechRecognition.stopListening();
+                    }} style={microphoneButtonStyle}>
                         Stop Recording
                     </Button>
                 ) : null}

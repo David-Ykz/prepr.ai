@@ -1,6 +1,6 @@
 import './App.css';
 import DisplayPrompt from './DisplayPrompt';
-import AudioRecorder from "./AudioRecorder";
+import Dictaphone from "./Dictaphone";
 
 
 function App() {
