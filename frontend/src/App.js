@@ -1,6 +1,5 @@
 import './App.css';
 import DisplayPrompt from './DisplayPrompt';
-import Dictaphone from "./Dictaphone";
 
 
 function App() {

@@ -1,7 +1,21 @@
+import OpenAI from "openai";
+
 const express = require("express");
 const cors = require("cors");
 const app = express();
 const db = require("./postgres-config");
+const openai = new OpenAI();
+
+async function gptQuery(query) {
+    const completion = await openai.chat.completions.create({
+        messages: [{"role": "user", "content": query}],
+        model: "gpt-3.5-turbo",
+    });
+    console.log(completion.choices[0]);
+}
+
+
+
 
 app.use(cors());
 app.use(express.json());
@@ -13,6 +27,7 @@ app.get("/message", (request, response) => {
     })
 });
 
+
 app.post("/audiomessage", (request, response) => {
     console.log("received data");
     console.log(request.body);
@@ -22,6 +37,7 @@ app.post("/audiomessage", (request, response) => {
 
 
 app.listen(8000, () => {
+    gptQuery("Who is the president of the United States?");
     console.log(`Server is running on port 8000.`);
 });
 
