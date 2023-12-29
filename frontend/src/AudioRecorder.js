@@ -73,7 +73,8 @@ const AudioRecorder = () => {
     };
     function sendRecordingData() {
         console.log(transcript);
-        const postData = {audioData: transcript};
+//        const postData = {audioData: transcript};
+        const postData = {audioData: "I would write myself a hard worker and that's why do it myself at 1:00 because I'm so he really likes to try and push the challenges and overcome difficulties"};
 
         axios({
             url: "http://localhost:8000/audiomessage",
@@ -81,7 +82,7 @@ const AudioRecorder = () => {
             data: postData,
         })
             .then((res) => {
-                console.log("returned message");
+                console.log(res.data);
             })
             .catch((err) => {});
     }
