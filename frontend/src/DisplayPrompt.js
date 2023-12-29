@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import {Navbar, Card, Button, Row, Col, Container} from "react-bootstrap";
 import AudioRecorder from "./AudioRecorder";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import SpeechRecognition from "react-speech-recognition";
 
 const navbarStyle = {
     backgroundColor: 'white',
@@ -41,6 +42,7 @@ const buttonStyle = {
 function DisplayPrompt() {
     const [prompt, setPrompt] = useState("");
     const [feedback, setFeedback] = useState("");
+    const [displayFeedback, setDisplayMode] = useState(false);
     function getRandomPrompt() {
         const url = "http://localhost:8000/message";
         fetch(url)
@@ -51,8 +53,13 @@ function DisplayPrompt() {
             })
     }
     const handleFeedback = (newFeedback) => {
-        setFeedback(newFeedback)
+        setDisplayMode(true);
+        setFeedback(newFeedback);
     };
+    function returnToPrompts () {
+        setDisplayMode(false);
+    }
+
     useEffect(() => {
         getRandomPrompt();
     }, []);
@@ -66,15 +73,27 @@ function DisplayPrompt() {
                 <Col md={8} className="d-flex justify-content-left">
                     <Card style={cardStyle} body>
                         <p className="card-text" style={promptStyle}>{prompt}</p>
-                        <Button style={buttonStyle} onClick={getRandomPrompt}>Next Question</Button>
-                        <AudioRecorder returnFeedback={handleFeedback} />
+                        {displayFeedback ? (
+                            <div>
+                                Feedback:
+                                <br/>
+                                {feedback}
+                                <br/>
+                                <br/>
+                                <Button onClick={returnToPrompts} style={buttonStyle}>
+                                    Go Back
+                                </Button>
+                            </div>
+                        ) : (
+                            <div>
+                                <Button style={buttonStyle} onClick={getRandomPrompt}>Next Question</Button>
+                                <AudioRecorder returnFeedback={handleFeedback} />
+                            </div>
+                        )}
                     </Card>
                 </Col>
             </Row>
-                <p>Feedback:</p>
-                <p>{feedback}</p>
-
-            </div>
+        </div>
     )
 }
 
