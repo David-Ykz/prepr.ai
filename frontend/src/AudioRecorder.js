@@ -5,7 +5,7 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 
 
 
-const AudioRecorder = () => {
+const AudioRecorder = ({returnFeedback}) => {
     const {transcript} = useSpeechRecognition();
     const microphoneButtonStyle = {
         backgroundColor: '#70a6ffff',
@@ -82,6 +82,7 @@ const AudioRecorder = () => {
             data: postData,
         })
             .then((res) => {
+                returnFeedback(res.data);
                 console.log(res.data);
             })
             .catch((err) => {});

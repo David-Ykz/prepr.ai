@@ -42,6 +42,7 @@ const buttonStyle = {
 
 function DisplayPrompt() {
     const [prompt, setPrompt] = useState("");
+    const [feedback, setFeedback] = useState("");
     function getRandomPrompt() {
         const url = "http://localhost:8000/message";
         fetch(url)
@@ -51,6 +52,9 @@ function DisplayPrompt() {
                 setPrompt(data.message);
             })
     }
+    const handleFeedback = (newFeedback) => {
+        setFeedback(newFeedback)
+    };
     useEffect(() => {
         getRandomPrompt();
     }, []);
@@ -59,13 +63,14 @@ function DisplayPrompt() {
         <div className="DisplayPrompt">
             <Navbar style={navbarStyle}>
                 <Navbar.Brand>Website Name</Navbar.Brand>
-                </Navbar>
-                <Card style={cardStyle}>
-                    <p className="card-text" style={promptStyle}>{prompt}</p>
-                    <Button style={buttonStyle} onClick={getRandomPrompt}>Next Question</Button>
-                    <AudioRecorder />
-                </Card>
-                <p>Other text</p>
+            </Navbar>
+            <Card style={cardStyle}>
+                <p className="card-text" style={promptStyle}>{prompt}</p>
+                <Button style={buttonStyle} onClick={getRandomPrompt}>Next Question</Button>
+                <AudioRecorder returnFeedback={handleFeedback}/>
+            </Card>
+            <p>Feedback:</p>
+            <p>{feedback}</p>
             </div>
     )
 }
