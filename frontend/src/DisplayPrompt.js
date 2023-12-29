@@ -67,7 +67,7 @@ function DisplayPrompt() {
     return (
         <div className="DisplayPrompt">
             <Navbar style={navbarStyle}>
-                <Navbar.Brand className="mx-auto" >Website Name</Navbar.Brand>
+                <Navbar.Brand className="mx-auto" >Prepr.ai</Navbar.Brand>
             </Navbar>
             <Row className="justify-content-center">
                 <Col md={8} className="d-flex justify-content-left">
