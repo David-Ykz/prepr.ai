@@ -1,7 +1,8 @@
 import { useState, useRef } from "react";
-import { Button } from "react-bootstrap";
+import {Button, Row, Col} from "react-bootstrap";
 import axios from "axios";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
@@ -93,38 +94,51 @@ const AudioRecorder = ({returnFeedback}) => {
     return (
         <div>
             <div className="audio-controls">
-                {!permission ? (
-                    <Button onClick={getMicrophonePermission} style={microphoneButtonStyle}>
-                        Get Microphone
-                    </Button>
-                ) : null}
-                {permission && recordingStatus === "inactive" ? (
-                    <Button onClick={() => {
-                        startRecording();
-                        SpeechRecognition.startListening();
-                    }} style={microphoneButtonStyle}>
-                        Start Recording
-                    </Button>
-                ) : null}
-                {recordingStatus === "recording" ? (
-                    <Button onClick={() => {
-                        stopRecording();
-                        SpeechRecognition.stopListening();
-                    }} style={microphoneButtonStyle}>
-                        Stop Recording
-                    </Button>
-                ) : null}
-                {audio ? (
-                    <div className="audio-container">
-                        <Button onClick={sendRecordingData} style={microphoneButtonStyle}>
-                            Send Audio Data
+                <div style={{ marginTop: '5px' }}>
+                    {!permission ? (
+                        <Button onClick={getMicrophonePermission} style={microphoneButtonStyle}>
+                            Enable Microphone
                         </Button>
-                        <audio src={audio} controls></audio>
-                        <a download href={audio}>
-                            Download Recording
-                        </a>
-                    </div>
-                ) : null}
+                    ) : null}
+                </div>
+                <div style={{ marginTop: '5px' }}>
+                    {permission && recordingStatus === "inactive" ? (
+                        <Button onClick={() => {
+                            startRecording();
+                            SpeechRecognition.startListening();
+                        }} style={microphoneButtonStyle}>
+                            Start Recording
+                        </Button>
+                    ) : null}
+                    {recordingStatus === "recording" ? (
+                        <Button onClick={() => {
+                            stopRecording();
+                            SpeechRecognition.stopListening();
+                        }} style={microphoneButtonStyle}>
+                            Stop Recording
+                        </Button>
+                    ) : null}
+                </div>
+                <div style={{ marginTop: '5px' }}>
+                    {audio ? (
+                        <div className="audio-container">
+                            <Button onClick={sendRecordingData} style={microphoneButtonStyle}>
+                                Get Feedback
+                            </Button>
+                        </div>
+                    ) : null}
+                </div>
+                <div style={{ marginTop: '5px' }}>
+                    {audio ? (
+                        <div className="audio-container">
+                            <audio src={audio} controls></audio>
+                            <br/>
+                            <a download href={audio}>
+                                Download Recording
+                            </a>
+                        </div>
+                    ) : null}
+                </div>
             </div>
         </div>
     );

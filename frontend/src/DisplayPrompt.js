@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { Navbar, Card, Button } from "react-bootstrap";
+import {Navbar, Card, Button, Row, Col, Container} from "react-bootstrap";
 import AudioRecorder from "./AudioRecorder";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const navbarStyle = {
     backgroundColor: 'white',
@@ -12,17 +13,14 @@ const navbarStyle = {
 const cardStyle = {
     backgroundColor: 'white',
     // eslint-disable-next-line no-restricted-globals
-    maxWidth: screen.width/2,
-    // eslint-disable-next-line no-restricted-globals
-    maxHeight: screen.height/3,
+    maxHeight: screen.height/2,
     width: '100%',
     // eslint-disable-next-line no-restricted-globals
-    minHeight: screen.height/4,
-    margin: '0 auto',
-    marginTop: 100,
+    minHeight: screen.height/2,
+//    margin: '0 auto',
+    marginTop: 75,
     borderRadius: 30,
     boxShadow: '0px 0px 5px #636f83ff',
-    padding: '10px'
 }
 const promptStyle = {
     color: 'black',
@@ -37,8 +35,8 @@ const buttonStyle = {
     borderRadius: '7px',
     border: 'none',
     fontSize: '16px',
-//    marginTop: 50,
 }
+
 
 function DisplayPrompt() {
     const [prompt, setPrompt] = useState("");
@@ -62,15 +60,20 @@ function DisplayPrompt() {
     return (
         <div className="DisplayPrompt">
             <Navbar style={navbarStyle}>
-                <Navbar.Brand>Website Name</Navbar.Brand>
+                <Navbar.Brand className="mx-auto" >Website Name</Navbar.Brand>
             </Navbar>
-            <Card style={cardStyle}>
-                <p className="card-text" style={promptStyle}>{prompt}</p>
-                <Button style={buttonStyle} onClick={getRandomPrompt}>Next Question</Button>
-                <AudioRecorder returnFeedback={handleFeedback}/>
-            </Card>
-            <p>Feedback:</p>
-            <p>{feedback}</p>
+            <Row className="justify-content-center">
+                <Col md={8} className="d-flex justify-content-left">
+                    <Card style={cardStyle} body>
+                        <p className="card-text" style={promptStyle}>{prompt}</p>
+                        <Button style={buttonStyle} onClick={getRandomPrompt}>Next Question</Button>
+                        <AudioRecorder returnFeedback={handleFeedback} />
+                    </Card>
+                </Col>
+            </Row>
+                <p>Feedback:</p>
+                <p>{feedback}</p>
+
             </div>
     )
 }
