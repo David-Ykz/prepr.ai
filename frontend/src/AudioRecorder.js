@@ -83,8 +83,8 @@ const AudioRecorder = ({returnFeedback}) => {
             data: postData,
         })
             .then((res) => {
-                returnFeedback(res.data);
                 console.log(res.data);
+                returnFeedback(res.data);
             })
             .catch((err) => {});
     }

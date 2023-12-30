@@ -12,16 +12,19 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
 
-async function gptQuery(query) {
+function gptQuery(query, response) {
     console.log("Query: ", query);
-    const completion = await openai.chat.completions.create({
+    openai.chat.completions.create({
         messages: [{"role": "user", "content": query}],
         model: "gpt-3.5-turbo",
+    }).then((completion) => {
+        const returnMessage = completion.choices[0].message.content;
+        console.log("Response: ", returnMessage);
+        response.send(returnMessage);
     });
-    const returnMessage = completion.choices[0]
-    console.log("Response: ", returnMessage.message.content);
-    return returnMessage.message.content;
 }
+
+
 
 function databaseQuery() {
     db.pool.query("SELECT * FROM interview_questions ORDER BY random() LIMIT 1;", function(err, res) {
@@ -43,14 +46,9 @@ app.get("/message", (request, response) => {
 
 app.post("/audiomessage", (request, response) => {
     console.log("received data");
-    console.log(request.body.audioData);
-    console.log(request.body.audioData.length);
     if (request.body.audioData.length < REQUEST_MAX_LENGTH) {
         const query = `In 100 words or fewer, give feedback on this response to the interview question \" ${lastPrompt} \" with the response: \" ${request.body.audioData} \"`;
-        console.log(query);
-        const gptResponse = "Response lacks clarity and depth. Grammar errors hinder coherence. Clarify ambiguous statements like 'write myself a hard worker' and 'do it myself at 1:00.' Expand on handling challenges with specific examples. Consider: 'I prioritize challenging tasks early for focus, value collaboration, and enjoy innovating in adversity. Dedicated to high-quality results and ongoing skill improvement.'";
-        response.send(gptResponse);
-        //        response.send(gptQuery(query));
+        gptQuery(query, response)
     } else {
         response.send("Max request length exceeded");
     }
