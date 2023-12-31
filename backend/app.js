@@ -45,7 +45,7 @@ app.get("/message", (request, response) => {
 
 
 app.post("/audiomessage", (request, response) => {
-    console.log("received data");
+    console.log(request.body.audioData);
     if (request.body.audioData.length < REQUEST_MAX_LENGTH) {
         const query = `In 100 words or fewer, give feedback on this response to the interview question \" ${lastPrompt} \" with the response: \" ${request.body.audioData} \"`;
         gptQuery(query, response)
