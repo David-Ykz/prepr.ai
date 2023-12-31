@@ -8,6 +8,9 @@ for line in file.readlines():
 	line = line.strip()
 	if (line != ""):
 		line = line.replace("â€™","''")
+		line = line.replace("â?\"","'-'")
+		line = line.replace("â?", "''")
+		line = line.replace("ƒ?Ý", "''")
 		if ("###" in line):
 			topic = line[line.find(" ") + 1:]
 
