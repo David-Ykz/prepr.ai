@@ -45,7 +45,7 @@ function DisplayPrompt() {
     const [feedback, setFeedback] = useState("");
     const [displayFeedback, setDisplayMode] = useState(false);
     function getRandomPrompt() {
-        const url = "http://localhost:8000/message";
+        const url = "https://y-backend.com:8000/message";
         fetch(url)
             .then((response) => response.json())
             .then((data) => {

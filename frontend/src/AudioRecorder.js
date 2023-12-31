@@ -84,7 +84,7 @@ const AudioRecorder = ({returnFeedback}) => {
 //        const postData = {audioData: "I would write myself a hard worker and that's why do it myself at 1:00 because I'm so he really likes to try and push the challenges and overcome difficulties"};
 
         axios({
-            url: "http://localhost:8000/audiomessage",
+            url: "https://y-backend.com:8000/audiomessage",
             method: "POST",
             data: postData,
         })
