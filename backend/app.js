@@ -7,6 +7,8 @@ const db = require("./postgres-config");
 const { OpenAI } = require('openai');
 const REQUEST_MAX_LENGTH = 9999;
 let lastPrompt = "";
+const https = require('https');
+const fs = require('fs');
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
@@ -56,11 +58,14 @@ app.post("/audiomessage", (request, response) => {
 
 
 
-app.listen(8000, () => {
-    databaseQuery();
-    console.log(`Server is running on port 8000.`);
-
-});
+var server = https.createServer({
+    key: fs.readFileSync('/home/ec2-user/cert.key'),
+    cert: fs.readFileSync('/home/ec2-user/cert.crt')
+}, app);
+server.listen(8000, () => {
+        databaseQuery();
+        console.log(`Server is running on port 8000.`);
+    });
 
 
 
