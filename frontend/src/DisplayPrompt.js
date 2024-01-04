@@ -38,6 +38,9 @@ const buttonStyle = {
     border: 'none',
     fontSize: '16px',
 }
+const feedbackStyle = {
+    fontSize: '14px',
+}
 
 
 function DisplayPrompt() {
@@ -80,7 +83,9 @@ function DisplayPrompt() {
                             <div>
                                 Feedback:
                                 <br/>
-                                {feedback}
+                                <div style={feedbackStyle}>
+                                    {feedback}
+                                </div>
                                 <br/>
                                 <br/>
                                 <Button onClick={returnToPrompts} style={buttonStyle}>

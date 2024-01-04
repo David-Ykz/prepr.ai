@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const AudioRecorder = ({returnFeedback}) => {
     const {transcript, listening} = useSpeechRecognition();
+    const [feedbackButtonDisabled, setFeedbackButton] = useState(false);
     const microphoneButtonStyle = {
         backgroundColor: '#70a6ffff',
         color: 'white',
@@ -80,6 +81,7 @@ const AudioRecorder = ({returnFeedback}) => {
 
     function sendRecordingData() {
         console.log(transcript);
+        setFeedbackButton(true);
         const postData = {audioData: transcript};
 //        const postData = {audioData: "I would write myself a hard worker and that's why do it myself at 1:00 because I'm so he really likes to try and push the challenges and overcome difficulties"};
 
@@ -128,7 +130,7 @@ const AudioRecorder = ({returnFeedback}) => {
                 <div style={{ marginTop: '5px' }}>
                     {audio ? (
                         <div className="audio-container">
-                            <Button onClick={sendRecordingData} style={microphoneButtonStyle}>
+                            <Button onClick={sendRecordingData} style={microphoneButtonStyle} disabled={feedbackButtonDisabled}>
                                 Get Feedback
                             </Button>
                         </div>
