@@ -2,16 +2,10 @@ import { useState, useEffect } from "react";
 import {Navbar, Card, Button, Row, Col, Container} from "react-bootstrap";
 import AudioRecorder from "./AudioRecorder";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap';
 import logo from './logo.jpg';
 import SpeechRecognition from "react-speech-recognition";
 
-const navbarStyle = {
-    backgroundColor: 'white',
-    color: 'black',
-    fontSize: '30px',
-    fontFamily: "Segoe UI",
-    padding: '10px'
-}
 const cardStyle = {
     backgroundColor: 'white',
     // eslint-disable-next-line no-restricted-globals
@@ -70,11 +64,6 @@ function DisplayPrompt() {
     document.body.style = 'background: #edf0f5ff;';
     return (
         <div className="DisplayPrompt">
-            <Navbar style={navbarStyle}>
-                <Navbar.Brand className="mx-auto" >
-                    <img src={logo} alt="Logo" className="center" height={40}/>
-                </Navbar.Brand>
-            </Navbar>
             <Row className="justify-content-center">
                 <Col md={8} className="d-flex justify-content-left">
                     <Card style={cardStyle} body>
