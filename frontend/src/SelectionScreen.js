@@ -8,7 +8,7 @@ import {useNavigate} from 'react-router-dom';
 
 
 function SelectionScreen() {
-    const generalDropdownValues = ["Get Questions Tailored to the Job", "General Questions"];
+    const generalDropdownValues = ["Questions Based On Job Posting", "General Questions (Soft Skills)"];
     const technicalDropdownValues = ["Data Structures & Algorithms", "Web Development", "Data Science & Machine Learning"];
     const navigateLinks = ["/general", "job-specific", "technical"];
 
