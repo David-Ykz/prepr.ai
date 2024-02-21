@@ -37,7 +37,7 @@ const feedbackStyle = {
 }
 
 
-function DisplayPrompt() {
+function GeneralQuestions() {
     const [prompt, setPrompt] = useState("");
     const [feedback, setFeedback] = useState("");
     const [displayFeedback, setDisplayMode] = useState(false);
@@ -94,4 +94,4 @@ function DisplayPrompt() {
     )
 }
 
-export default DisplayPrompt;
+export default GeneralQuestions;
