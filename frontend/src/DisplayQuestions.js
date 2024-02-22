@@ -4,7 +4,7 @@ import AudioRecorder from "./AudioRecorder";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
 import next from './next.png';
-import back from "./back.png";
+import {textButton, iconButton} from "./styles";
 
 
 const cardStyle = {
@@ -27,20 +27,6 @@ const promptStyle = {
     justifyContent: 'center',
     minHeight: 100
 }
-const buttonStyle = {
-    backgroundColor: '#70a6ffff',
-    color: 'white',
-    borderRadius: '7px',
-    border: 'none',
-    fontSize: '16px',
-}
-const whiteButtonStyle = {
-    backgroundColor: 'white',
-    borderRadius: '7px',
-    borderColor: 'gray',
-    width: '40px'
-}
-
 
 const feedbackStyle = {
     fontSize: '14px',
@@ -83,7 +69,7 @@ function DisplayQuestions({promptList}) {
                                 </div>
                                 <br/>
                                 <br/>
-                                <Button onClick={returnToPrompts} style={buttonStyle}>
+                                <Button onClick={returnToPrompts} style={textButton}>
                                     Go Back
                                 </Button>
                             </div>
@@ -91,11 +77,11 @@ function DisplayQuestions({promptList}) {
                             <div>
                                 <div style={{position: 'relative', left: '90%', top: '150px'}}>
                                     {currentIndex < promptList.length ?
-                                        <Button style={whiteButtonStyle} onClick={incrementPromptIndex}>
+                                        <Button style={iconButton} onClick={incrementPromptIndex}>
                                             <img src={next} alt="Next" style={{height: '25px', marginLeft: '-5px'}}/>
                                         </Button>
                                         :
-                                        <Button href={'/'} style={buttonStyle}>Back</Button>
+                                        <Button href={'/'} style={textButton}>Back</Button>
                                     }
                                 </div>
 

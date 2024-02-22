@@ -3,19 +3,17 @@ import {Button, Row, Col} from "react-bootstrap";
 import axios from "axios";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import play from "./play.png";
+import pause from "./pause.png";
+import next from "./next.png";
+import {textButton, iconButton} from "./styles";
 
 
 
 const AudioRecorder = ({returnFeedback}) => {
     const {transcript, listening} = useSpeechRecognition();
     const [feedbackButtonDisabled, setFeedbackButton] = useState(false);
-    const microphoneButtonStyle = {
-        backgroundColor: '#70a6ffff',
-        color: 'white',
-        borderRadius: '7px',
-        border: 'none',
-        fontSize: '16px',
-    }
+
 
 
     const mimeType = "audio/webm";
@@ -104,7 +102,7 @@ const AudioRecorder = ({returnFeedback}) => {
             <div className="audio-controls">
                 <div style={{ marginTop: '5px' }}>
                     {!permission ? (
-                        <Button onClick={getMicrophonePermission} style={microphoneButtonStyle}>
+                        <Button onClick={getMicrophonePermission} style={textButton}>
                             Enable Microphone
                         </Button>
                     ) : null}
@@ -114,23 +112,23 @@ const AudioRecorder = ({returnFeedback}) => {
                         <Button onClick={() => {
                             startRecording();
                             listenContinously();
-                        }} style={microphoneButtonStyle}>
-                            Start Recording
+                        }} style={iconButton}>
+                            <img src={play} alt="play" style={{height: '25px', marginLeft: '-5px'}}/>
                         </Button>
                     ) : null}
                     {recordingStatus === "recording" ? (
                         <Button onClick={() => {
                             stopRecording();
                             SpeechRecognition.stopListening();
-                        }} style={microphoneButtonStyle}>
-                            Stop Recording
+                        }} style={iconButton}>
+                            <img src={pause} alt="pause" style={{height: '25px', marginLeft: '-5px'}}/>
                         </Button>
                     ) : null}
                 </div>
                 <div style={{ marginTop: '5px' }}>
                     {audio ? (
                         <div className="audio-container">
-                            <Button onClick={sendRecordingData} style={microphoneButtonStyle} disabled={feedbackButtonDisabled}>
+                            <Button onClick={sendRecordingData} style={textButton} disabled={feedbackButtonDisabled}>
                                 Get Feedback
                             </Button>
                         </div>
@@ -141,9 +139,7 @@ const AudioRecorder = ({returnFeedback}) => {
                         <div className="audio-container">
                             <audio src={audio} controls></audio>
                             <br/>
-                            <a download href={audio}>
-                                Download Recording
-                            </a>
+                            <Button href={audio} target={'_blank'} style={textButton}>Download Recording</Button>
                         </div>
                     ) : null}
                 </div>
