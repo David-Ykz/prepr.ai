@@ -39,7 +39,19 @@ app.use(express.json());
 
 
 app.get("/message", (request, response) => {
-    db.pool.query("SELECT * FROM interview_questions ORDER BY random() LIMIT 1;", function(err, res) {
+    console.log('received request');
+    db.pool.query("SELECT * FROM interview_questions ORDER BY random() LIMIT 6;", function(err, res) {
+        const prompts = [];
+        res.rows.forEach(row => {
+            prompts.push(row.prompt);
+        });
+
+        console.log(prompts);
+        response.json({ prompts });
+    });
+    db.pool.query("SELECT * FROM interview_questions ORDER BY random() LIMIT 6;", function(err, res) {
+        console.log(res.rows[0]);
+        console.log(res.rows[0].prompt);
         response.json({ message: res.rows[0].prompt });
         lastPrompt = res.rows[0].prompt;
     })
@@ -58,15 +70,18 @@ app.post("/audiomessage", (request, response) => {
 
 
 
-var server = https.createServer({
-    key: fs.readFileSync('/home/ec2-user/cert.key'),
-    cert: fs.readFileSync('/home/ec2-user/cert.crt')
-}, app);
-server.listen(8000, () => {
-        databaseQuery();
-        console.log(`Server is running on port 8000.`);
-    });
+// var server = https.createServer({
+//     key: fs.readFileSync('/home/ec2-user/cert.key'),
+//     cert: fs.readFileSync('/home/ec2-user/cert.crt')
+// }, app);
+// server.listen(8000, () => {
+//         databaseQuery();
+//         console.log(`Server is running on port 8000.`);
+//     });
 
+app.listen(8000, () => {
+    console.log(`Server is running on port 8000.`);
+});
 
 
 
