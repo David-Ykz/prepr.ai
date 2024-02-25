@@ -138,9 +138,9 @@ function DisplayQuestions({promptList}) {
                         <p className="card-text" style={promptStyle}>{prompt}</p>
                         {displayFeedback ? (
                             <div>
-                                <p style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>Feedback:</p>
+                                <p style={{display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '18px', fontWeight: 'bold'}}>Feedback:</p>
                                 <div style={{fontSize: '14px'}}>{feedback}</div>
-                                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '10px'}}>
+                                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px'}}>
                                     <Button onClick={returnToPrompts} style={textButton}>Try Again</Button>
                                 </div>
                             </div>
