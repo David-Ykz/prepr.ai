@@ -1,95 +1,64 @@
-import { useState, useEffect } from "react";
-import {Navbar, Card, Button, Row, Col, Container} from "react-bootstrap";
-import AudioRecorder from "./AudioRecorder";
+import {useRef, useState} from "react";
+import {Button, Form} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
-import logo from './logo.jpg';
-import SpeechRecognition from "react-speech-recognition";
-
-const cardStyle = {
-    backgroundColor: 'white',
-    // eslint-disable-next-line no-restricted-globals
-    maxHeight: screen.height/2,
-    width: '100%',
-    // eslint-disable-next-line no-restricted-globals
-    minHeight: screen.height/2,
-//    margin: '0 auto',
-    marginTop: 75,
-    borderRadius: 30,
-    boxShadow: '0px 0px 5px #636f83ff',
-}
-const promptStyle = {
-    color: 'black',
-    fontSize: '20px',
-    fontFamily: 'Segoe UI',
-    alignSelf: 'flex-end',
-    minHeight: 100
-}
-const buttonStyle = {
-    backgroundColor: '#70a6ffff',
-    color: 'white',
-    borderRadius: '7px',
-    border: 'none',
-    fontSize: '16px',
-}
-const feedbackStyle = {
-    fontSize: '14px',
-}
-
+import DisplayQuestions from "./DisplayQuestions";
+import {textButton} from "./styles";
+import axios from "axios";
 
 function TailoredQuestions() {
-    const [prompt, setPrompt] = useState("");
-    const [feedback, setFeedback] = useState("");
-    const [displayFeedback, setDisplayMode] = useState(false);
-    function getRandomPrompt() {
-        const url = "https://y-backend.com:8000/message";
-        fetch(url)
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data.message);
-                setPrompt(data.message);
-            })
-    }
-    const handleFeedback = (newFeedback) => {
-        setDisplayMode(true);
-        setFeedback(newFeedback);
-    };
-    function returnToPrompts () {
-        setDisplayMode(false);
+    const [prompts, setPrompts] = useState("");
+//    const {jobTitleRef, jobDescriptionRef} = useRef(null);
+    const jobTitleRef = useRef(null);
+    const jobDescriptionRef = useRef(null);
+    document.body.style = 'background: #edf0f5ff;';
+
+    function unpackToArr(str) {
+        const questionsArray = str.split("|");
+        return questionsArray.map(question => question.trim());
     }
 
-    useEffect(() => {
-        getRandomPrompt();
-    }, []);
-    document.body.style = 'background: #edf0f5ff;';
+    function handleSubmit(event) {
+        event.preventDefault();
+        const jobTitle = jobTitleRef.current.value;
+        const jobDescription = jobDescriptionRef.current.value;
+        console.log("Job Title:", jobTitle);
+        console.log("Job Description:", jobDescription);
+
+        const postData = {jobTitle: jobTitle, jobDescription: jobDescription};
+
+        axios({
+            url: "http://localhost:8000/tailored_prompts",
+//            url: "https://y-backend.com:8000/audiomessage",
+            method: "POST",
+            data: postData,
+        })
+            .then((res) => {
+                console.log(res.data);
+                setPrompts(unpackToArr(res.data));
+            })
+            .catch((err) => {});
+    }
+
+
     return (
-        <div className="DisplayPrompt">
-            <Row className="justify-content-center">
-                <Col md={8} className="d-flex justify-content-left">
-                    <Card style={cardStyle} body>
-                        <p className="card-text" style={promptStyle}>{prompt}</p>
-                        {displayFeedback ? (
-                            <div>
-                                Feedback:
-                                <br/>
-                                <div style={feedbackStyle}>
-                                    {feedback}
-                                </div>
-                                <br/>
-                                <br/>
-                                <Button onClick={returnToPrompts} style={buttonStyle}>
-                                    Go Back
-                                </Button>
-                            </div>
-                        ) : (
-                            <div>
-                                <Button style={buttonStyle} onClick={getRandomPrompt}>Next Question</Button>
-                                <AudioRecorder returnFeedback={handleFeedback} />
-                            </div>
-                        )}
-                    </Card>
-                </Col>
-            </Row>
+        <div>
+            {prompts === "" ?
+            <div style={{position: 'absolute', top: '10%', left: '20%'}}>
+                <Form onSubmit={handleSubmit} style={{width: '350%'}}>
+                    <Form.Group>
+                        <Form.Label style={{fontSize: '18px'}}>Enter Job Title (optional):</Form.Label>
+                        <Form.Control ref={jobTitleRef}/>
+                        <Form.Label style={{fontSize: '18px', marginTop: '5%'}}>Enter Job Description:</Form.Label>
+                        <Form.Control as="textarea" ref={jobDescriptionRef} style={{height: '200px', caretColor: 'top'}} wrap="soft"/>
+                    </Form.Group>
+
+                    <Button type="submit" style={{...textButton, marginTop: '5%'}}>Submit</Button>
+                </Form>
+            </div>
+            :
+            <DisplayQuestions promptList={prompts}></DisplayQuestions>
+            }
         </div>
     )
 }

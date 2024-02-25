@@ -26,6 +26,18 @@ function gptQuery(query, response) {
     });
 }
 
+function gptPromptQuery(query, response) {
+    console.log("Query: ", query);
+    openai.chat.completions.create({
+        messages: [{"role": "user", "content": query}],
+        model: "gpt-3.5-turbo",
+    }).then((completion) => {
+        const returnMessage = completion.choices[0].message.content;
+        console.log("Response: ", returnMessage);
+        response.send(returnMessage);
+    });
+}
+
 
 
 function databaseQuery() {
@@ -38,7 +50,7 @@ app.use(cors());
 app.use(express.json());
 
 
-app.get("/message", (request, response) => {
+app.get("/general_prompts", (request, response) => {
     console.log('received request');
     db.pool.query("SELECT * FROM interview_questions ORDER BY random() LIMIT 6;", function(err, res) {
         const prompts = [];
@@ -51,8 +63,7 @@ app.get("/message", (request, response) => {
     });
 });
 
-
-app.post("/audiomessage", (request, response) => {
+app.post("/feedback", (request, response) => {
     const prompt = request.body.prompt;
     const audioData = request.body.audioData;
     if (audioData.length < REQUEST_MAX_LENGTH) {
@@ -65,6 +76,27 @@ app.post("/audiomessage", (request, response) => {
     }
 });
 
+app.post("/tailored_prompts", (request, response) => {
+    const jobTitle = request.body.jobTitle;
+    const jobDescription = request.body.jobDescription;
+    const queryBase = 'Generate 6 interview questions you would ask a candidate separated by |, like so: question1|question2..., do not include any numbers or linebreaks. You MUST follow this format no matter what. The questions are based on the given job posting: ';
+    if (jobTitle === "") {
+        if (jobDescription.length < REQUEST_MAX_LENGTH) {
+            const query = queryBase + jobDescription;
+            gptPromptQuery(query, response);
+        } else {
+            response.send("Max request length exceeded");
+        }
+    } else {
+        if (jobTitle.length < REQUEST_MAX_LENGTH && jobDescription.length < REQUEST_MAX_LENGTH) {
+            const query = queryBase + jobDescription + ' with the job title: ' + jobTitle;
+            gptPromptQuery(query, response);
+        } else {
+            response.send("Max request length exceeded");
+        }
+
+    }
+});
 
 
 // var server = https.createServer({
