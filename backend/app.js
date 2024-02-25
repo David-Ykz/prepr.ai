@@ -47,14 +47,14 @@ app.get("/message", (request, response) => {
         });
 
         console.log(prompts);
-        response.json({ prompts });
+        response.json({message: prompts });
     });
-    db.pool.query("SELECT * FROM interview_questions ORDER BY random() LIMIT 6;", function(err, res) {
-        console.log(res.rows[0]);
-        console.log(res.rows[0].prompt);
-        response.json({ message: res.rows[0].prompt });
-        lastPrompt = res.rows[0].prompt;
-    })
+    // db.pool.query("SELECT * FROM interview_questions ORDER BY random() LIMIT 6;", function(err, res) {
+    //     console.log(res.rows[0]);
+    //     console.log(res.rows[0].prompt);
+    //     response.json({ message: res.rows[0].prompt });
+    //     lastPrompt = res.rows[0].prompt;
+    // })
 });
 
 

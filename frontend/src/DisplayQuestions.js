@@ -31,17 +31,23 @@ const promptStyle = {
 const feedbackStyle = {
     fontSize: '14px',
 }
-var currentIndex = 0;
+var currentIndex = -1;
 
 
 function DisplayQuestions({promptList}) {
-    const [prompt, setPrompt] = useState(promptList[0]);
+    const [prompt, setPrompt] = useState(['Press Next To Start']);
     const [feedback, setFeedback] = useState("");
     const [displayFeedback, setDisplayMode] = useState(false);
     const handleFeedback = (newFeedback) => {
         setDisplayMode(true);
         setFeedback(newFeedback);
     };
+    // useEffect(() => {
+    //     // Call your function here
+    //     setPrompt(promptList[0]);
+    // }, []);
+
+
     function returnToPrompts () {
         setDisplayMode(false);
     }
@@ -53,6 +59,7 @@ function DisplayQuestions({promptList}) {
         setPrompt(promptList[currentIndex]);
     }
 
+    console.log(promptList.length);
     document.body.style = 'background: #edf0f5ff;';
     return (
         <div className="GeneralQuestions">
@@ -76,7 +83,7 @@ function DisplayQuestions({promptList}) {
                         ) : (
                             <div>
                                 <div style={{position: 'relative', left: '90%', top: '150px'}}>
-                                    {currentIndex < promptList.length ?
+                                    {currentIndex < promptList.length - 1 ?
                                         <Button style={iconButton} onClick={incrementPromptIndex}>
                                             <img src={next} alt="Next" style={{height: '25px', marginLeft: '-5px'}}/>
                                         </Button>
