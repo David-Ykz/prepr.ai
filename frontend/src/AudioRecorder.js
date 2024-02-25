@@ -13,9 +13,6 @@ import {textButton, iconButton} from "./styles";
 const AudioRecorder = ({returnFeedback}) => {
     const {transcript, listening} = useSpeechRecognition();
     const [feedbackButtonDisabled, setFeedbackButton] = useState(false);
-
-
-
     const mimeType = "audio/webm";
     const [permission, setPermission] = useState(false);
     const mediaRecorder = useRef(null);

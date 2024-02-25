@@ -1,3 +1,25 @@
+export const cardStyle = {
+    backgroundColor: 'white',
+    // eslint-disable-next-line no-restricted-globals
+    maxHeight: screen.height/2,
+    width: '100%',
+    // eslint-disable-next-line no-restricted-globals
+    minHeight: screen.height/2,
+    margin: '0 auto',
+    marginTop: 75,
+    borderRadius: 30,
+    boxShadow: '0px 0px 5px #636f83ff',
+}
+
+export const promptStyle = {
+    color: 'black',
+    fontSize: '20px',
+    fontFamily: 'Segoe UI',
+    display: 'flex',
+    justifyContent: 'center',
+    minHeight: 100
+}
+
 export const buttonStyle = {
     backgroundColor: '#70a6ffff',
     color: 'white',
