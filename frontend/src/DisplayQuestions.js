@@ -20,7 +20,7 @@ function DisplayQuestions({promptList}) {
     const [feedback, setFeedback] = useState("");
     const [displayFeedback, setDisplayMode] = useState(false);
 
-    let {transcript, listening} = useSpeechRecognition();
+    const {transcript, resetTranscript, listening} = useSpeechRecognition();
     const [feedbackButtonDisabled, setFeedbackButton] = useState(false);
     const mimeType = "audio/webm";
     const [permission, setPermission] = useState(false);
@@ -69,7 +69,7 @@ function DisplayQuestions({promptList}) {
     };
 
     const startRecording = async () => {
-        transcript = "";
+        resetTranscript();
         setRecordingStatus("recording");
         //create new Media recorder instance using the stream
         const media = new MediaRecorder(stream, { type: mimeType });
