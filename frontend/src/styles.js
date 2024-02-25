@@ -17,7 +17,7 @@ export const promptStyle = {
     fontFamily: 'Segoe UI',
     display: 'flex',
     justifyContent: 'center',
-    minHeight: 100
+
 }
 
 export const buttonStyle = {

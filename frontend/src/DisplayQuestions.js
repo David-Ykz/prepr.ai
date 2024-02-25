@@ -20,7 +20,7 @@ function DisplayQuestions({promptList}) {
     const [feedback, setFeedback] = useState("");
     const [displayFeedback, setDisplayMode] = useState(false);
 
-    const {transcript, listening} = useSpeechRecognition();
+    let {transcript, listening} = useSpeechRecognition();
     const [feedbackButtonDisabled, setFeedbackButton] = useState(false);
     const mimeType = "audio/webm";
     const [permission, setPermission] = useState(false);
@@ -40,6 +40,7 @@ function DisplayQuestions({promptList}) {
 
     function returnToPrompts () {
         setDisplayMode(false);
+        setAudio(null);
     }
 
     function incrementPromptIndex() {
@@ -47,6 +48,7 @@ function DisplayQuestions({promptList}) {
         currentIndex = currentIndex + 1;
         console.log(currentIndex);
         setPrompt(promptList[currentIndex]);
+        returnToPrompts();
     }
 
     const getMicrophonePermission = async () => {
@@ -67,6 +69,7 @@ function DisplayQuestions({promptList}) {
     };
 
     const startRecording = async () => {
+        transcript = "";
         setRecordingStatus("recording");
         //create new Media recorder instance using the stream
         const media = new MediaRecorder(stream, { type: mimeType });
@@ -108,17 +111,19 @@ function DisplayQuestions({promptList}) {
     function sendRecordingData() {
         console.log(transcript);
         setFeedbackButton(true);
-        const postData = {audioData: transcript};
+        const postData = {audioData: transcript, prompt: prompt};
 //        const postData = {audioData: "I would write myself a hard worker and that's why do it myself at 1:00 because I'm so he really likes to try and push the challenges and overcome difficulties"};
 
         axios({
-            url: "https://y-backend.com:8000/audiomessage",
+            url: "http://localhost:8000/audiomessage",
+//            url: "https://y-backend.com:8000/audiomessage",
             method: "POST",
             data: postData,
         })
             .then((res) => {
                 console.log(res.data);
                 handleFeedback(res.data);
+                setFeedbackButton(false);
             })
             .catch((err) => {});
     }
@@ -126,43 +131,42 @@ function DisplayQuestions({promptList}) {
     console.log(promptList.length);
     document.body.style = 'background: #edf0f5ff;';
     return (
-        <div className="GeneralQuestions">
+        <div className="GeneralQuestions" >
             <Row className="justify-content-center">
                 <Col md={8} className="d-flex justify-content-left">
                     <Card style={cardStyle} body>
                         <p className="card-text" style={promptStyle}>{prompt}</p>
                         {displayFeedback ? (
                             <div>
-                                Feedback:
-                                <br/>
-                                <div style={{fontSize: '14px'}}>
-                                    {feedback}
+                                <p style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>Feedback:</p>
+                                <div style={{fontSize: '14px'}}>{feedback}</div>
+                                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '10px'}}>
+                                    <Button onClick={returnToPrompts} style={textButton}>Try Again</Button>
                                 </div>
-                                <br/>
-                                <br/>
-                                <Button onClick={returnToPrompts} style={textButton}>
-                                    Go Back
-                                </Button>
                             </div>
                         ) : (
                             <div>
-                                <div style={{position: 'absolute', left: '84%', top: '80%'}}>
-                                    {!permission ? (
-                                        <Button onClick={getMicrophonePermission} style={iconButton}>
-                                            <img src={microphoneImg} alt="play" style={{height: '25px', marginLeft: '-5px'}}/>
-                                        </Button>
-                                    ) : null}
-                                    {permission && recordingStatus === "inactive" ? (
-                                        <Button onClick={() => {startRecording(); listenContinously();}} style={iconButton}>
-                                            <img src={playImg} alt="play" style={{height: '25px', marginLeft: '-5px'}}/>
-                                        </Button>
-                                    ) : null}
-                                    {recordingStatus === "recording" ? (
-                                        <Button onClick={() => {stopRecording(); SpeechRecognition.stopListening();}} style={iconButton}>
-                                            <img src={pauseImg} alt="pause" style={{height: '25px', marginLeft: '-5px'}}/>
-                                        </Button>
-                                    ) : null}
-                                </div>
+                                {currentIndex >= 0 ?
+                                    <div style={{position: 'absolute', left: '84%', top: '80%'}}>
+                                        {!permission ? (
+                                            <Button onClick={getMicrophonePermission} style={iconButton}>
+                                                <img src={microphoneImg} alt="play" style={{height: '25px', marginLeft: '-5px'}}/>
+                                            </Button>
+                                        ) : null}
+                                        {permission && recordingStatus === "inactive" ? (
+                                            <Button onClick={() => {startRecording(); listenContinously();}} style={iconButton}>
+                                                <img src={playImg} alt="play" style={{height: '25px', marginLeft: '-5px'}}/>
+                                            </Button>
+                                        ) : null}
+                                        {recordingStatus === "recording" ? (
+                                            <Button onClick={() => {stopRecording(); SpeechRecognition.stopListening();}} style={iconButton}>
+                                                <img src={pauseImg} alt="pause" style={{height: '25px', marginLeft: '-5px'}}/>
+                                            </Button>
+                                        ) : null}
+                                    </div>
+                                    :
+                                    null
+                                }
                                 {audio ? (
                                     <div>
                                         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', paddingBottom: '10px'}}>
@@ -174,17 +178,26 @@ function DisplayQuestions({promptList}) {
                                         </div>
                                     </div>
                                 ) : null}
-                                <div style={{position: 'absolute', left: '90%', top: '80%'}}>
-                                    {currentIndex < promptList.length - 1 ?
-                                        <Button style={iconButton} onClick={incrementPromptIndex}>
-                                            <img src={nextImg} alt="Next" style={{height: '25px', marginLeft: '-5px'}}/>
-                                        </Button>
-                                        :
-                                        <Button href={'/'} style={textButton}>Back</Button>
-                                    }
-                                </div>
                             </div>
                         )}
+                        <div style={{position: 'absolute', left: '5%', top: '80%'}}>
+                            {currentIndex >= 0 ?
+                                <div>
+                                    {currentIndex + 1}/{promptList.length}
+                                </div>
+                                :
+                                null
+                            }
+                        </div>
+                        <div style={{position: 'absolute', left: '90%', top: '80%'}}>
+                            {currentIndex < promptList.length - 1 ?
+                                <Button style={iconButton} onClick={incrementPromptIndex}>
+                                    <img src={nextImg} alt="Next" style={{height: '25px', marginLeft: '-5px'}}/>
+                                </Button>
+                                :
+                                <Button href={'/'} style={textButton}>Back</Button>
+                            }
+                        </div>
                     </Card>
                 </Col>
             </Row>

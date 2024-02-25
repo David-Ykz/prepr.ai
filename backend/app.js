@@ -49,19 +49,16 @@ app.get("/message", (request, response) => {
         console.log(prompts);
         response.json({message: prompts });
     });
-    // db.pool.query("SELECT * FROM interview_questions ORDER BY random() LIMIT 6;", function(err, res) {
-    //     console.log(res.rows[0]);
-    //     console.log(res.rows[0].prompt);
-    //     response.json({ message: res.rows[0].prompt });
-    //     lastPrompt = res.rows[0].prompt;
-    // })
 });
 
 
 app.post("/audiomessage", (request, response) => {
-    console.log(request.body.audioData);
-    if (request.body.audioData.length < REQUEST_MAX_LENGTH) {
-        const query = `In 100 words or fewer, give feedback on this response to the interview question \" ${lastPrompt} \" with the response: \" ${request.body.audioData} \"`;
+    const prompt = request.body.prompt;
+    const audioData = request.body.audioData;
+    if (audioData.length < REQUEST_MAX_LENGTH) {
+        console.log(prompt);
+        console.log(audioData);
+        const query = `In 100 words or fewer, give feedback on this response to the interview question \" ${prompt} \" with the response: \" ${audioData} \"`;
         gptQuery(query, response)
     } else {
         response.send("Max request length exceeded");
