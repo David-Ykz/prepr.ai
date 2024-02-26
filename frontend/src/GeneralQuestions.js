@@ -24,9 +24,7 @@ function GeneralQuestions() {
             })
     }
     return (
-        <div className="DisplayPrompt">
-            <DisplayQuestions promptList={prompts}></DisplayQuestions>
-        </div>
+        <DisplayQuestions promptList={prompts}></DisplayQuestions>
     )
 }
 

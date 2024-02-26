@@ -83,7 +83,7 @@ app.post("/tailored_prompts", (request, response) => {
     if (jobTitle === "") {
         if (jobDescription.length < REQUEST_MAX_LENGTH) {
             const query = queryBase + jobDescription;
-            gptPromptQuery(query, response);
+            gptQuery(query, response);
         } else {
             response.send("Max request length exceeded");
         }
