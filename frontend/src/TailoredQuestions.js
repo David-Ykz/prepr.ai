@@ -28,8 +28,8 @@ function TailoredQuestions() {
         const postData = {jobTitle: jobTitle, jobDescription: jobDescription};
 
         axios({
-            url: "http://localhost:8000/tailored_prompts",
-//            url: "https://y-backend.com:8000/audiomessage",
+//            url: "http://localhost:8000/tailored_prompts",
+            url: "https://y-backend.com:8000/tailored_prompts",
             method: "POST",
             data: postData,
         })

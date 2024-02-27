@@ -14,8 +14,8 @@ function GeneralQuestions() {
 
     function getRandomPrompts() {
         console.log("called");
-//        const url = "https://y-backend.com:8000/message";
-        const url = "http://localhost:8000/general_prompts";
+        const url = "https://y-backend.com:8000/general_prompts";
+//        const url = "http://localhost:8000/general_prompts";
         fetch(url)
             .then((response) => response.json())
             .then((data) => {

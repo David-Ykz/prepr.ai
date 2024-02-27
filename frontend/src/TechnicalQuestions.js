@@ -22,8 +22,8 @@ function TechnicalQuestions({promptType}) {
         console.log("called");
         const postData = {technicalField: promptType};
         axios({
-            url: "http://localhost:8000/technical_prompts",
-//            url: "https://y-backend.com:8000/audiomessage",
+//            url: "http://localhost:8000/technical_prompts",
+            url: "https://y-backend.com:8000/technical_prompts",
             method: "POST",
             data: postData,
         })
