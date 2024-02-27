@@ -27,8 +27,12 @@ function SelectionScreen() {
             navigate('/tailored-questions');
         } else if (selectedItem === generalDropdownValues[1]) {
             navigate('/general-questions')
-        } else {
-            navigate('/technical-questions')
+        } else if (selectedItem === technicalDropdownValues[0]) {
+            navigate('/dsa')
+        } else if (selectedItem === technicalDropdownValues[1]) {
+            navigate('/webdev')
+        } else if (selectedItem === technicalDropdownValues[2]) {
+            navigate('/ml')
         }
     }
     return (

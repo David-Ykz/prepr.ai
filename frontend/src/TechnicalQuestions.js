@@ -9,6 +9,7 @@ import axios from "axios";
 function TechnicalQuestions({promptType}) {
     const [prompts, setPrompts] = useState([]);
     useEffect(() => {
+        console.log('use effect');
         getPrompts(promptType);
     }, []);
 
@@ -19,7 +20,7 @@ function TechnicalQuestions({promptType}) {
 
     function getPrompts() {
         console.log("called");
-        const postData = {promptType: promptType};
+        const postData = {technicalField: promptType};
         axios({
             url: "http://localhost:8000/technical_prompts",
 //            url: "https://y-backend.com:8000/audiomessage",

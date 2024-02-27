@@ -5,6 +5,7 @@ import {Button, Navbar} from 'react-bootstrap';
 import logo from './logo.jpg';
 import back from './back.png';
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import TechnicalQuestions from "./TechnicalQuestions";
 
 function App() {
     document.body.style = 'background: #edf0f5ff;';
@@ -21,6 +22,9 @@ function App() {
                 <Route exact path="/" element={<SelectionScreen />} />
                 <Route path="/general-questions" element={<GeneralQuestions />} />
                 <Route path="/tailored-questions" element={<TailoredQuestions />} />
+                <Route path='/dsa' element={<TechnicalQuestions promptType={'Data Structures & Algorithms'} />} />
+                <Route path='/webdev' element={<TechnicalQuestions promptType={'Web Development'} />} />
+                <Route path='/ml' element={<TechnicalQuestions promptType={'Data Science & Machine Learning'} />} />
             </Routes>
         </Router>
   );

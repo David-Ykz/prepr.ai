@@ -26,17 +26,6 @@ function gptQuery(query, response) {
     });
 }
 
-function gptPromptQuery(query, response) {
-    console.log("Query: ", query);
-    openai.chat.completions.create({
-        messages: [{"role": "user", "content": query}],
-        model: "gpt-3.5-turbo",
-    }).then((completion) => {
-        const returnMessage = completion.choices[0].message.content;
-        console.log("Response: ", returnMessage);
-        response.send(returnMessage);
-    });
-}
 
 
 
@@ -98,6 +87,16 @@ app.post("/tailored_prompts", (request, response) => {
     }
 });
 
+app.post("/technical_prompts", (request, response) => {
+    const technicalField = request.body.technicalField;
+    const queryBase = 'Generate 6 technical interview questions you would ask a candidate separated by |, like so: question1|question2..., do not include any numbers or linebreaks. You MUST follow this format no matter what. The questions are based on the topic: ';
+    if (technicalField.length < REQUEST_MAX_LENGTH) {
+        const query = queryBase + technicalField;
+        gptQuery(query, response);
+    } else {
+        response.send("Max request length exceeded");
+    }
+});
 
 // var server = https.createServer({
 //     key: fs.readFileSync('/home/ec2-user/cert.key'),
