@@ -4,17 +4,11 @@ import axios from "axios";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
 import nextImg from '../images/next.png';
-import backImg from '../images/back.png';
-import playImg from '../images/play.png';
-import pauseImg from '../images/pause.png';
-import microphoneImg from '../images/microphone.png';
 import {serverUrl} from '../urls.js';
 import {cardStyle, promptStyle, textButton, iconButton} from "../styles";
 import SpeechRecognition, {useSpeechRecognition} from "react-speech-recognition";
 
-
 var currentIndex = -1;
-
 
 function DisplayQuestions({promptList}) {
     const [prompt, setPrompt] = useState(['Press Next Arrow To Start']);
