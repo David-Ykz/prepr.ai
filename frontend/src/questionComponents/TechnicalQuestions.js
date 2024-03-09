@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import {Navbar, Card, Button, Row, Col, Container} from "react-bootstrap";
-import AudioRecorder from "./AudioRecorder";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
 import DisplayQuestions from "./DisplayQuestions";
 import axios from "axios";
+import {serverUrl} from "../urls";
 
 function TechnicalQuestions({promptType}) {
     const [prompts, setPrompts] = useState([]);
@@ -23,7 +22,7 @@ function TechnicalQuestions({promptType}) {
         const postData = {technicalField: promptType};
         axios({
 //            url: "http://localhost:8000/technical_prompts",
-            url: "https://y-backend.com:8000/technical_prompts",
+            url: serverUrl + "technical_prompts",
             method: "POST",
             data: postData,
         })

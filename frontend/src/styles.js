@@ -34,7 +34,9 @@ export const textButton = {
     color: 'white',
     borderRadius: '7px',
     border: 'none',
-    fontSize: '16px'
+    fontSize: '16px',
+    alignItems: 'center',
+    height: '42px'
 }
 export const iconButton = {
     backgroundColor: 'white',

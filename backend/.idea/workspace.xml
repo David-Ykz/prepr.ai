@@ -5,8 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ca0370a-012f-4749-a352-84b282a67e71" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../frontend/src/urls.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/AudioRecorder.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/AudioRecorder.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/DisplayQuestions.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/questionComponents/DisplayQuestions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/GeneralQuestions.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/questionComponents/GeneralQuestions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/TailoredQuestions.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/questionComponents/TailoredQuestions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/TechnicalQuestions.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/questionComponents/TechnicalQuestions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/back.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/images/back.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/logo.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/images/logo.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/microphone.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/images/microphone.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/next.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/images/next.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/pause.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/images/pause.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/play.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/images/play.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/styles.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +84,7 @@
       <workItem from="1706058451861" duration="423000" />
       <workItem from="1706152978839" duration="138000" />
       <workItem from="1706233024716" duration="24000" />
-      <workItem from="1708656551967" duration="19330000" />
+      <workItem from="1708656551967" duration="24132000" />
     </task>
     <servers />
   </component>

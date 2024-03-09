@@ -1,11 +1,11 @@
-import GeneralQuestions from './GeneralQuestions';
+import GeneralQuestions from './questionComponents/GeneralQuestions';
 import SelectionScreen from './SelectionScreen';
-import TailoredQuestions from './TailoredQuestions';
+import TailoredQuestions from './questionComponents/TailoredQuestions';
 import {Button, Navbar} from 'react-bootstrap';
-import logo from './logo.jpg';
-import back from './back.png';
+import logo from './images/logo.jpg';
+import back from './images/back.png';
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import TechnicalQuestions from "./TechnicalQuestions";
+import TechnicalQuestions from "./questionComponents/TechnicalQuestions";
 
 function App() {
     document.body.style = 'background: #edf0f5ff;';

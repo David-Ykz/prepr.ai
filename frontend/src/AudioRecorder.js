@@ -7,6 +7,7 @@ import play from "./play.png";
 import pause from "./pause.png";
 import next from "./next.png";
 import {textButton, iconButton} from "./styles";
+import {serverUrl} from "./urls";
 
 
 
@@ -81,7 +82,7 @@ const AudioRecorder = ({returnFeedback}) => {
 //        const postData = {audioData: "I would write myself a hard worker and that's why do it myself at 1:00 because I'm so he really likes to try and push the challenges and overcome difficulties"};
 
         axios({
-            url: "https://y-backend.com:8000/audiomessage",
+            url: serverUrl + "audiomessage",
             method: "POST",
             data: postData,
         })

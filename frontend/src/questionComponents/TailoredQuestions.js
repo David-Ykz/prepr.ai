@@ -3,7 +3,8 @@ import {Button, Form} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
 import DisplayQuestions from "./DisplayQuestions";
-import {textButton} from "./styles";
+import {textButton} from '../styles';
+import {serverUrl} from '../urls';
 import axios from "axios";
 
 function TailoredQuestions() {
@@ -28,8 +29,7 @@ function TailoredQuestions() {
         const postData = {jobTitle: jobTitle, jobDescription: jobDescription};
 
         axios({
-//            url: "http://localhost:8000/tailored_prompts",
-            url: "https://y-backend.com:8000/tailored_prompts",
+            url: serverUrl + "tailored_prompts",
             method: "POST",
             data: postData,
         })
