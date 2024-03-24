@@ -7,12 +7,17 @@ import back from './images/back.png';
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import TechnicalQuestions from "./questionComponents/TechnicalQuestions";
 import ReactGA from 'react-ga';
+import {useEffect} from "react";
 
 const TRACKING_ID = "G-PXYLVPRD0E";
 ReactGA.initialize(TRACKING_ID);
 
 function App() {
     document.body.style = 'background: #edf0f5ff;';
+
+    useEffect(() => {
+        ReactGA.pageview(window.location.pathname + window.location.search);
+    }, []);
 
     return (
         <Router>
