@@ -15,9 +15,9 @@ import {useEffect} from "react";
 function App() {
     document.body.style = 'background: #edf0f5ff;';
 
-    useEffect(() => {
-        ReactGA.pageview(window.location.pathname + window.location.search);
-    }, []);
+    // useEffect(() => {
+    //     ReactGA.pageview(window.location.pathname + window.location.search);
+    // }, []);
 
     return (
         <Router>
