@@ -3,16 +3,34 @@ require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const db = require("./postgres-config");
 const { OpenAI } = require('openai');
+const { MongoClient, ServerApiVersion } = require('mongodb');
 const REQUEST_MAX_LENGTH = 9999;
-let lastPrompt = "";
 const https = require('https');
 const fs = require('fs');
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
+
+const client = new MongoClient(process.env.MONGODB_CONNECTION_STRING, {
+    serverApi: {
+        version: ServerApiVersion.v1,
+        strict: true,
+        deprecationErrors: true,
+    }
+});
+
+async function getMongoDbQuestions(num) {
+    await client.connect();
+    const db = client.db("InterviewQuestions");
+    const collection = await db.collection("GeneralQuestions");
+    const randomQuestions = await collection.aggregate([
+        { $sample: { size: num } }
+    ]).toArray();
+    await client.close();
+    return randomQuestions;
+}
 
 function gptQuery(query, response) {
     console.log("Query: ", query);
@@ -26,29 +44,17 @@ function gptQuery(query, response) {
     });
 }
 
-
-
-
-function databaseQuery() {
-    db.pool.query("SELECT * FROM interview_questions ORDER BY random() LIMIT 1;", function(err, res) {
-        lastPrompt = res.rows[0].prompt;
-    })
-}
-
 app.use(cors());
 app.use(express.json());
 
-
 app.get("/general_prompts", (request, response) => {
     console.log('received request');
-    db.pool.query("SELECT * FROM interview_questions ORDER BY random() LIMIT 6;", function(err, res) {
-        const prompts = [];
-        res.rows.forEach(row => {
-            prompts.push(row.prompt);
+    const prompts = [];
+    getMongoDbQuestions(6).then(randomQuestions => {
+        randomQuestions.forEach(question => {
+            prompts.push(question.question);
         });
-
-        console.log(prompts);
-        response.json({message: prompts });
+        response.json({message: prompts})
     });
 });
 
@@ -103,7 +109,6 @@ var server = https.createServer({
     cert: fs.readFileSync('/home/ec2-user/cert.crt')
 }, app);
 server.listen(8000, () => {
-        databaseQuery();
         console.log(`Server is running on port 8000.`);
     });
 
