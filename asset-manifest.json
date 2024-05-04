@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/Interview-Prep-App/static/css/main.241951ba.css",
+    "main.js": "/Interview-Prep-App/static/js/main.d99b13e5.js",
+    "static/media/logo.jpg": "/Interview-Prep-App/static/media/logo.c8df6ae4e0d0cdd4f4f4.jpg",
+    "index.html": "/Interview-Prep-App/index.html",
+    "main.241951ba.css.map": "/Interview-Prep-App/static/css/main.241951ba.css.map",
+    "main.d99b13e5.js.map": "/Interview-Prep-App/static/js/main.d99b13e5.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.241951ba.css",
+    "static/js/main.d99b13e5.js"
+  ]
+}
