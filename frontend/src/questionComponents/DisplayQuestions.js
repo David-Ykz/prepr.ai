@@ -193,14 +193,14 @@ function DisplayQuestions({promptList}) {
             </div>
             <div style={{position: 'absolute', right: '5%', top: '80%'}}>
                 {currentIndex > 0 ?
-                    <Button style={{...iconButton, marginRight: '5px'}} onClick={incrementPromptIndex}>
+                    <Button style={{...iconButton, marginRight: '5px'}} onClick={decrementPromptIndex}>
                         <img src={nextImg} alt="Back" style={{height: '25px', marginLeft: '-5px', transform: 'rotate(180deg)'}}/>
                     </Button>
                     :
                     null
                 }
                 {currentIndex < promptList.length - 1 ?
-                    <Button style={iconButton} onClick={decrementPromptIndex}>
+                    <Button style={iconButton} onClick={incrementPromptIndex}>
                         <img src={nextImg} alt="Next" style={{height: '25px', marginLeft: '-5px'}}/>
                     </Button>
                     :
