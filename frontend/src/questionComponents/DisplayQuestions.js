@@ -106,7 +106,7 @@ function DisplayQuestions({promptList}) {
         };
     };
 
-    function listenContinously() {
+    function listenContinuously() {
         SpeechRecognition.startListening({
             continuous: true
         })
@@ -116,7 +116,6 @@ function DisplayQuestions({promptList}) {
         console.log(transcript);
         setFeedbackButton(true);
         const postData = {audioData: transcript, prompt: prompt};
-//        const postData = {audioData: "I would write myself a hard worker and that's why do it myself at 1:00 because I'm so he really likes to try and push the challenges and overcome difficulties"};
 
         axios({
             url: serverUrl + "feedback",
@@ -152,7 +151,7 @@ function DisplayQuestions({promptList}) {
                                 <Button onClick={getMicrophonePermission} style={textButton}>Enable Microphone</Button>
                             ) : null}
                             {permission && recordingStatus === "inactive" ? (
-                                <Button onClick={() => {startRecording(); listenContinously();}} style={textButton}>Start Recording</Button>
+                                <Button onClick={() => {startRecording(); listenContinuously();}} style={textButton}>Start Recording</Button>
                             ) : null}
                             {recordingStatus === "recording" ? (
                                 <Button onClick={() => {stopRecording(); SpeechRecognition.stopListening();}} style={textButton}>Stop Recording</Button>
@@ -201,7 +200,7 @@ function DisplayQuestions({promptList}) {
                     null
                 }
                 {currentIndex < promptList.length - 1 ?
-                    <Button style={iconButton} onClick={incrementPromptIndex}>
+                    <Button style={iconButton} onClick={decrementPromptIndex}>
                         <img src={nextImg} alt="Next" style={{height: '25px', marginLeft: '-5px'}}/>
                     </Button>
                     :
