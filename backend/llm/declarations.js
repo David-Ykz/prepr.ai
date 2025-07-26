@@ -1,14 +1,14 @@
 import { Type } from '@google/genai';
 
-export const jobPostingDeclaration = {
+export const jobPostingTemplate = {
 	name: "create_job_posting_data",
 	description: "Extracts structured data from a job posting.",
 	parameters: {
 		type: Type.OBJECT,
 		properties: {
 			title: {
-			type: Type.STRING,
-			description: "The title of the job position."
+				type: Type.STRING,
+				description: "The title of the job position."
 			},
 			company: {
 				type: Type.STRING,
@@ -26,5 +26,36 @@ export const jobPostingDeclaration = {
 			}
 		},
 		required: ["title", "company", "tags", "questions"]
+	}
+};
+
+export const feedbackTemplate = {
+	name: "feedback",
+	description: "A template for feedback",
+	parameters: {
+		type: Type.OBJECT,
+		properties: {
+			relevance: {
+				type: Type.INTEGER,
+				description: "A score out of 5 for how relevant the response was to the question/company. A score of 5 means the response was very relevant, while a score of 0 means the response was completely off-topic"
+			},
+			clarity: {
+				type: Type.INTEGER,
+				description: "A score out of 5 for how easy the response was to follow. A score of 5 means the response was well-articulated and concise, while a score of 0 means the response was confusing or vague"
+			},
+			correctness: {
+				type: Type.INTEGER,
+				description: "A score out of 5 for how factually correct the response was. A score of 5 means the candidate has a solid understanding of the topic discussed in the response, while a score of 0 means the response has many errors. Mainly applicable to technical or knowledge-based questions"
+			},
+			persuasiveness: {
+				type: Type.INTEGER,
+				description: "A score out of 5 for how persuasive the response was. A score of 5 indicates a compelling response, while a score of 0 indicates a response with no real argument. Mainly applicable to behavioural questions"
+			},
+			otherFeedback: {
+				type: Type.STRING,
+				description: "Feedback on the response. Give an overall summary on the quality of the response, then go into detail dissecting the response, focusing on both good and bad aspects. If you did not give a score of 5/5 for any of the categories (relevance, clarity, correctness, persuasiveness), explain why"
+			},
+		},
+		required: ["relevance", "clarity", "otherFeedback"]
 	}
 };

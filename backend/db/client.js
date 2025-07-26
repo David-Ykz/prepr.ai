@@ -25,9 +25,37 @@ export async function storeJobPosting(data) {
 		const db = client.db(process.env.MONGODB_DBNAME);
 		const collection = db.collection(process.env.MONGODB_COLLECTION);
 		return await collection.insertOne(data);
-	} catch(err) {
+	} catch (err) {
 		console.error("Error storing job posting: ", err);
 	} finally {
 		await client.close();
 	}
+}
+
+export async function getJobPosting(id) {
+    try {
+        await client.connect();
+        const db = client.db(process.env.MONGODB_DBNAME);
+        const collection = db.collection(process.env.MONGODB_COLLECTION);
+        return await collection.findOne({ _id: id });
+    } catch (err) {
+		console.error(`Error getting job posting with id ${id}: `, err);
+		return {};
+    } finally {
+		await client.close();
+    }
+}
+
+export async function listJobPosting() {
+    try {
+        await client.connect();
+        const db = client.db(process.env.MONGODB_DBNAME);
+        const collection = db.collection(process.env.MONGODB_COLLECTION);
+		return await collection.find({}).toArray();
+    } catch (err) {
+		console.error("Error listing job postings: ", err);
+		return [];
+    } finally {
+		await client.close();
+    }
 }

@@ -20,7 +20,7 @@ export async function queryLLM(prompt, declaration) {
 			return response.functionCalls[0];
 		}
 		return response.text;
-	} catch(err) {
+	} catch (err) {
 		const errMessage = `Encountered error querying LLM with prompt: ${prompt} and error: ${err}`;
 		console.log(errMessage);
 		return errMessage;

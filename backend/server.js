@@ -1,12 +1,13 @@
-import { storeJobPosting } from './db/client.js';
+import { getJobPosting, listJobPosting, storeJobPosting } from './db/client.js';
 import { queryLLM } from './llm/client.js';
-import { jobPostingDeclaration } from './llm/declarations.js';
+import { jobPostingTemplate, feedbackTemplate } from './llm/declarations.js';
 import express, { json } from 'express';
 import cors from 'cors';
+import multer from 'multer';
 
 const app = express();
 const PORT = 8000;
-
+const mediaUpload = multer({ storage: multer.memoryStorage() });
 
 const sampleUploadPrompt = `
 222
@@ -63,45 +64,68 @@ we’re looking for this type of person:
 About 222
 222 is building the future of social by accelerating IRL chance encounters.`
 
-
 app.use(cors());
 app.use(json());
 
+app.post('/posting/upload', async (req, res) => {
+	try {
+    	const { content } = req.body;
+		console.log("content: ", content);
+		const formattedJobPosting = await queryLLM(content, jobPostingTemplate);
+		formattedJobPosting.originalPosting = content;
+		await storeJobPosting(formattedJobPosting);
+		res.json(formattedJobPosting);
+	} catch (err) {
+    	console.error("Error in /posting/upload: ", err);
+    	res.status(500).json({ error: 'Server error' });
+  	}
+});
 
-queryLLM(sampleUploadPrompt, jobPostingDeclaration).then(res => {
-	storeJobPosting(res);
-})
+app.post('/posting/get', async (req, res) => {
+	try {
+		const { content } = req.body;
+		const jobPosting = await getJobPosting(content);
+		res.json(jobPosting);
+	} catch (err) {
+    	console.error("Error in /posting/get", err);
+    	res.status(500).json({ error: 'Server error' });
+	}
+});
 
-// POST /upload
-// app.post('/upload', async (req, res) => {
-// 	try {
-//     	const { content } = req.body;
+app.get('/posting/list', async (req, res) => {
+	try {
+		const jobPostings = await listJobPosting();
+		res.json(jobPostings);
+	} catch (err) {
+    	console.error("Error in /posting/list", err);
+    	res.status(500).json({ error: 'Server error' });
+	}
+});
 
-//     	if (!content || typeof content !== 'string') {
-//     		return res.status(400).json({ error: 'Invalid content' });
-//     	}
-
-// 		res.json({ questions: ["Question 1", "Question 2", "Question 3"] });
-// 	} catch (err) {
-//     	console.error(err);
-//     	res.status(500).json({ error: 'Server error' });
-//   	}
-// });
-
-// // GET /list
-// app.get('/list', async (req, res) => {
-//   try {
-//     const uploads = await Upload.find().sort({ timestamp: -1 });
-//     res.json({ uploads });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: 'Server error' });
-//   }
-// });
-
-// app.listen(PORT, () => {
-//   console.log(`Server running at http://localhost:${PORT}`);
-// });
-
+app.post('/feedback/upload', upload.single('audio'), async (req, res) => {
+	try {
+		const file = req.file;
+		const { content } = req.body;
+		const question = content.question;
+		const posting = content.posting;
+		const prompt = [
+			{
+				text: `You are interviewing a candidate for a ${posting.title} role at the company ${posting.company}. 
+				Give feedback on their response to the question ${question}`
+			},
+			{
+				inlineData: {
+					mimeType: "audio/mp3",
+					data: file
+				}
+			}
+		];
+		const feedback = await queryLLM(prompt, feedbackTemplate);
+		res.json(feedback);
+	} catch (err) {
+		console.error("Error in /feedback/upload: ", err);
+		res.status(500).json({ error: 'Server error' });
+	}
+});
 
 
