@@ -17,7 +17,7 @@ export async function queryLLM(prompt, declaration) {
 			}
 		});
 		if (response.functionCalls && response.functionCalls.length > 0) {
-			return response.functionCalls[0];
+			return response.functionCalls[0].args;
 		}
 		return response.text;
 	} catch (err) {

@@ -102,7 +102,7 @@ app.get('/posting/list', async (req, res) => {
 	}
 });
 
-app.post('/feedback/upload', upload.single('audio'), async (req, res) => {
+app.post('/feedback/upload', mediaUpload.single('audio'), async (req, res) => {
 	try {
 		const file = req.file;
 		const { content } = req.body;
@@ -129,3 +129,6 @@ app.post('/feedback/upload', upload.single('audio'), async (req, res) => {
 });
 
 
+app.listen(PORT, () => {
+	console.log("Started server on", PORT);
+});
