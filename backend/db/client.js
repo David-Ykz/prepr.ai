@@ -4,7 +4,7 @@ import { MongoClient, ObjectId, ServerApiVersion } from 'mongodb';
 const client = new MongoClient(process.env.MONGODB_CONNECTION_STRING, {
   serverApi: {
     version: ServerApiVersion.v1,
-    strict: true,
+    strict: false,
     deprecationErrors: true,
   }
 });
@@ -58,4 +58,17 @@ export async function listJobPosting(title, company, tags) {
 		console.error("Error listing job postings: ", err);
 		return [];
     }
+}
+
+export async function getAllTags() {
+	try {
+        await client.connect();
+        const db = client.db(process.env.MONGODB_DBNAME);
+        const collection = db.collection(process.env.MONGODB_COLLECTION);
+		return await collection.distinct('tags');
+    } catch (err) {
+		console.error("Error getting all tags: ", err);
+		return [];
+    }
+
 }

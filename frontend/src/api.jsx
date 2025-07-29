@@ -22,6 +22,12 @@ export async function getJobPosting(id) {
     return await response.json();
 }
 
+export async function getAllTags() {
+    const response = await fetch(`${BASE_URL}/posting/tags`);
+    return await response.json();
+}
+
+
 export async function uploadJobPosting(posting) {
     const response = await fetch(`${BASE_URL}/posting/upload`, {
         method: 'POST',

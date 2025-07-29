@@ -1,4 +1,4 @@
-import { getJobPosting, listJobPosting, storeJobPosting } from './db/client.js';
+import { getAllTags, getJobPosting, listJobPosting, storeJobPosting } from './db/client.js';
 import { queryLLM } from './llm/client.js';
 import { jobPostingTemplate, feedbackTemplate } from './llm/declarations.js';
 import express, { json } from 'express';
@@ -15,6 +15,8 @@ app.use(json());
 app.post('/posting/upload', async (req, res) => {
 	try {
     	const { content } = req.body;
+		const tags = await getAllTags();
+		content += `\n here are a list of existing tags: ${tags}`
 		const formattedJobPosting = await queryLLM(content, jobPostingTemplate);
 		await storeJobPosting(formattedJobPosting);
 		res.json(formattedJobPosting);
@@ -40,6 +42,16 @@ app.post('/posting/list', async (req, res) => {
 		const { title, company, tags } = req.body;
 		const jobPostings = await listJobPosting(title, company, tags);
 		res.json(jobPostings);
+	} catch (err) {
+    	console.error("Error in /posting/list", err);
+    	res.status(500).json({ error: 'Server error' });
+	}
+});
+
+app.get('/posting/tags', async (req, res) => {
+	try {
+		const tags = await getAllTags();
+		res.json(tags);
 	} catch (err) {
     	console.error("Error in /posting/list", err);
     	res.status(500).json({ error: 'Server error' });

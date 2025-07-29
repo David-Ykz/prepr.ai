@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import './BrowseJobPosting.css'
-import { getJobPosting, listJobPostings, uploadJobPosting } from './api';
+import { getAllTags, getJobPosting, listJobPostings, uploadJobPosting } from './api';
 
 const BrowseJobPosting = function() {
 	const [titleFilter, setTitleFilter] = useState("");
 	const [companyFilter, setCompanyFilter] = useState("");
 	const [tagsFilter, setTagsFilter] = useState([]);
 	const [postings, setPostings] = useState([]);
-	const allTags = ['SQL', 'JavaScript', 'Pytorch', 'Python', 'AWS', 'C++', 'Kubernetes', 'React', 'Web Development', 'Full-stack', 'Node.js']
+	const [allTags, setAllTags] = useState([]);
 	const tagOptions = allTags.map(tag => ({ value: tag, label: tag }));
 
 	useEffect(() => {
 		async function fetchData() {
 			setPostings(await listJobPostings({title: titleFilter, company: companyFilter, tags: tagsFilter}));		
+			setAllTags(await getAllTags());
 		}
 		fetchData();
 	}, []);
