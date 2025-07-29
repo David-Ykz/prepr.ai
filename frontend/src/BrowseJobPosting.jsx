@@ -1,35 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import './BrowseJobPosting.css'
+import { getJobPosting, listJobPostings, uploadJobPosting } from './api';
 
 const BrowseJobPosting = function() {
 	const [titleFilter, setTitleFilter] = useState("");
 	const [companyFilter, setCompanyFilter] = useState("");
 	const [tagsFilter, setTagsFilter] = useState([]);
-	// const [postings, setPosting] = useState([]);
+	const [postings, setPostings] = useState([]);
 	const allTags = ['SQL', 'JavaScript', 'Pytorch', 'Python', 'AWS', 'C++', 'Kubernetes', 'React', 'Web Development', 'Full-stack', 'Node.js']
 	const tagOptions = allTags.map(tag => ({ value: tag, label: tag }));
-	const postings = [
-	{
-		company: "Omnistrate",
-		title: "Software Engineer - Developer Experience",
-		tags: ["Remote", "Fulltime", "Will Sponsor", "$60K - $125K", "Any (New Grads Ok)"]
-	},
-	{
-		company: "CrowdVolt",
-		title: "Founding (Full-Stack) Engineer",
-		tags: ["NY", "US Citizen/Visa Only", "$120K - $180K", "0.25% - 1.50%", "New Grads Ok"]
-	},
-	{
-		company: "Broccoli AI",
-		title: "Growth Marketing Lead",
-		tags: ["San Francisco", "11 people", "B2B", "Product & Design"]
-	}
-	];
 
-	function listJobPostings() {
+	useEffect(() => {
+		async function fetchData() {
+			setPostings(await listJobPostings({title: titleFilter, company: companyFilter, tags: tagsFilter}));		
+		}
+		fetchData();
+	}, []);
 
-	}
+	async function onFilterButtonClick() {
+		setPostings(await listJobPostings({title: titleFilter, company: companyFilter, tags: tagsFilter}));
+	};
 
 
 	return (
@@ -64,7 +55,7 @@ const BrowseJobPosting = function() {
 					onChange={(selected) => setTagsFilter(selected.map(s => s.value))}
 				/>
 
-				<button className="filter-button" onClick={listJobPostings}>Apply</button>
+				<button className="filter-button" onClick={onFilterButtonClick}>Apply</button>
 
 			</div>
 			{
