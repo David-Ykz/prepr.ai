@@ -61,9 +61,8 @@ app.get('/posting/tags', async (req, res) => {
 app.post('/feedback/upload', mediaUpload.single('audio'), async (req, res) => {
 	try {
 		const file = req.file;
-		const { content } = req.body;
-		const question = content.question;
-		const posting = content.posting;
+        const base64Audio = file.buffer.toString('base64');
+		const { question, posting } = req.body;
 		const prompt = [
 			{
 				text: `You are interviewing a candidate for a ${posting.title} role at the company ${posting.company}. 
@@ -71,8 +70,8 @@ app.post('/feedback/upload', mediaUpload.single('audio'), async (req, res) => {
 			},
 			{
 				inlineData: {
-					mimeType: "audio/mp3",
-					data: file
+					mimeType: "audio/webm",
+					data: base64Audio
 				}
 			}
 		];

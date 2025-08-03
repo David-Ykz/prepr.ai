@@ -2,9 +2,9 @@
 
 .filter-section {
 	position: absolute;
-	left: 20%;
+	left: 17%;
 	background-color: #fdfef7;
-	width: 17%;
+	width: 20%;
 	height: 50%;
 	font-family: 'Montserrat', sans-serif;
 	padding: 20px;
@@ -60,7 +60,7 @@
 	padding-left: 20px;
 	padding-top: 1px;
 	margin-bottom: 10px;
-	margin-left: 40%;
+	margin-left: 24.5%;
 	border-radius: 4px;
 }
 

@@ -53,7 +53,7 @@ export const feedbackTemplate = {
 			},
 			otherFeedback: {
 				type: Type.STRING,
-				description: "Feedback on the response. Give an overall summary on the quality of the response, then go into detail dissecting the response, focusing on both good and bad aspects. If you did not give a score of 5/5 for any of the categories (relevance, clarity, correctness, persuasiveness), explain why"
+				description: "Feedback on the response. Give an overall summary on the quality of the response, then go into detail dissecting the response, focusing on both good and bad aspects. If you did not give a score of 5/5 for any of the categories (relevance, clarity, correctness, persuasiveness), explain why. The response should be in 2nd person"
 			},
 		},
 		required: ["relevance", "clarity", "otherFeedback"]

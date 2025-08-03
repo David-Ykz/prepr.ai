@@ -2,14 +2,30 @@ import React, { useState } from 'react';
 import './App.css';
 import BrowseJobPosting from './BrowseJobPosting';
 import UploadJobPosting from './UploadJobPosting';
+import Interview from './Interview';
 
 function App() {
 	const [activeView, setActiveView] = useState('upload');
-
+	const examplePosting = {
+		_id: "68882a8af856d03bcdc21044",
+		title: "Senior Software Engineer",
+		questions: [
+			"How would you approach scaling our core systems to handle 100M+ participants?",
+			"Can you describe your experience with critical infrastructure like email or auth?",
+			"How do you approach evolving existing services to handle greater scale or complexity?",
+			"Can you discuss a time you led with technical vision, identifying opportunities for improvement?",
+			"How do you approach designing reusable systems and clear abstractions at scale?",
+			"Describe your experience with JavaScript/TypeScript and how you would apply it here.",
+			"What is your experience with distributed systems patterns (e.g., microservices, event-driven architecture)?"
+		],
+		company: "Rally UXR",
+		tags: ["Backend", "Node.js", "TypeScript", "AWS", "Kafka"]
+	};
   	return (
 		<div>
-			
-			<BrowseJobPosting />
+
+      <Interview posting={examplePosting}/>
+			{/* <BrowseJobPosting /> */}
 			{/* <UploadJobPosting /> */}
 		</div>
 

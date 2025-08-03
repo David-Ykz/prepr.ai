@@ -38,3 +38,17 @@ export async function uploadJobPosting(posting) {
     });
     return await response.json();
 }
+
+export async function getFeedback(audioBlob, question, posting) {
+    const formData = new FormData();
+	formData.append('audio', audioBlob, 'audio.webm');
+	formData.append('question', JSON.stringify(question));
+	formData.append('posting', JSON.stringify(posting));
+
+    const response = await fetch(`${BASE_URL}/feedback/upload`, {
+        method: 'POST',
+        body: formData
+    });
+
+    return await response.json();
+}
