@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './UploadJobPosting.css'
 import { uploadJobPosting } from './api';
 
-const UploadJobPosting = function() {
+const UploadJobPosting = function({ setSelectedPosting, setActiveView }) {
 	const [jobPosting, setJobPosting] = useState("");
 
 
@@ -11,7 +11,8 @@ const UploadJobPosting = function() {
             return;
         }
         const response = await uploadJobPosting(jobPosting);
-        console.log(response);
+        setSelectedPosting(response);
+        setActiveView('interview');
     }
 
 	return (

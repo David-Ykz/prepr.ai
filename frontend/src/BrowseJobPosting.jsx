@@ -3,7 +3,7 @@ import Select from 'react-select';
 import './BrowseJobPosting.css'
 import { getAllTags, getJobPosting, listJobPostings, uploadJobPosting } from './api';
 
-const BrowseJobPosting = function() {
+const BrowseJobPosting = function({ setSelectedPosting, setActiveView }) {
 	const [titleFilter, setTitleFilter] = useState("");
 	const [companyFilter, setCompanyFilter] = useState("");
 	const [tagsFilter, setTagsFilter] = useState([]);
@@ -23,6 +23,10 @@ const BrowseJobPosting = function() {
 		setPostings(await listJobPostings({title: titleFilter, company: companyFilter, tags: tagsFilter}));
 	};
 
+	function onPostingCardClick(posting) {
+		setSelectedPosting(posting);
+		setActiveView('interview')
+	}
 
 	return (
 		<div className="container">
@@ -61,7 +65,7 @@ const BrowseJobPosting = function() {
 			</div>
 			{
 				postings.map((posting, index) => (
-					<div className="posting-card" key={index}>
+					<div className="posting-card" key={index} onClick={() => onPostingCardClick(posting)}>
 						<p className="posting-title">{posting.title}</p>
 						<p className="posting-text">{posting.company}</p>
 						{posting.tags.map((tag, i) => (

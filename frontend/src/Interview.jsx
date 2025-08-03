@@ -3,29 +3,31 @@ import './Interview.css'
 import RecordingComponent from './VideoRecorder';
 import { getFeedback } from './api';
 
-const Interview = function({ posting }) {
+const Interview = function({ posting, setActiveView }) {
     const videoRef = useRef(null);
     const mediaRecorderRef = useRef(null);
     const [mediaStream, setMediaStream] = useState(null);
     const [recordedChunks, setRecordedChunks] = useState([]);
     const [videoState, setVideoState] = useState(0); // start, stop, get feedback, save, next question
     const [questionIndex, setQuestionIndex] = useState(0);
+	const [feedback, setFeedback] = useState({});
 
-    useEffect(() => {
-        async function startRecording() {
-            const stream = await navigator.mediaDevices.getUserMedia({
-                video: true,
-                audio: true
-            });
+	async function startupVideoStream() {
+		const stream = await navigator.mediaDevices.getUserMedia({
+			video: true,
+			audio: true
+		});
 
-            setMediaStream(stream);
+		setMediaStream(stream);
 
-            if (videoRef.current) {
-                videoRef.current.srcObject = stream;
-                videoRef.current.play();
-            }
-        }
-        startRecording();
+		if (videoRef.current) {
+			videoRef.current.srcObject = stream;
+			videoRef.current.play();
+		}
+	}
+
+	useEffect(() => {
+        startupVideoStream();
     }, []);
 
 	async function startRecording() {
@@ -74,9 +76,13 @@ const Interview = function({ posting }) {
 	}
 
 	function nextQuestion() {
+		if (questionIndex === posting.questions.length - 1) {
+			setActiveView('browse');
+			return;
+		}
 		setQuestionIndex(questionIndex + 1);
 		setRecordedChunks([]);
-		setVideoState(0);
+		startupVideoStream();
 	}
 
 	async function onRecordButtonClicked() {
@@ -91,11 +97,12 @@ const Interview = function({ posting }) {
 		} else {
 			nextQuestion();
 		}
-		setVideoState(videoState + 1);
+		setVideoState((videoState + 1) % 5);
 	}
 
 	function recordButtonText() {
-		const text = ['Start', 'Stop', 'Get Feedback', 'Save', 'Next Question'];
+		const endOfQuestions = questionIndex === posting.questions.length - 1;
+		const text = ['Start', 'Stop', 'Get Feedback', 'Save', endOfQuestions ? 'Back' : 'Next Question'];
 		return text[videoState > text.length - 1 ? text.length - 1 : videoState];
 	}
 
@@ -103,7 +110,19 @@ const Interview = function({ posting }) {
     return (
         <div className="container">
             <p className="interview-question">Question {questionIndex + 1}: {posting.questions[questionIndex]}</p>
-			<video className="video-feed" ref={videoRef} autoPlay muted />
+			{
+				videoState < 3 ? (
+					<video className="video-feed" ref={videoRef} autoPlay muted />
+				) : (
+					<div>
+						<p>Clarity: {feedback.clarity}</p>
+						<p>Correctness: {feedback.correctness || "N/A"}</p>
+						<p>Relevance: {feedback.relevance}</p>
+						<p>Persuasiveness: {feedback.persuasiveness || "N/A"}</p>
+						<p>Feedback: {feedback.otherFeedback}</p>
+					</div>
+				)
+			}
 			<button className="record-button" onClick={onRecordButtonClicked}>{recordButtonText()}</button>
         </div>
     )
