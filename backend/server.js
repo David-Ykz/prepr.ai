@@ -4,6 +4,7 @@ import { jobPostingTemplate, feedbackTemplate } from './llm/declarations.js';
 import express, { json } from 'express';
 import cors from 'cors';
 import multer from 'multer';
+import https from 'https';
 
 const app = express();
 const PORT = 8000;
@@ -84,6 +85,14 @@ app.post('/feedback/upload', mediaUpload.single('audio'), async (req, res) => {
 });
 
 
-app.listen(PORT, () => {
-	console.log("Started server on", PORT);
+// app.listen(PORT, () => {
+// 	console.log("Started server on", PORT);
+// });
+
+var server = https.createServer({
+    key: fs.readFileSync('/home/ec2-user/cert.key'),
+    cert: fs.readFileSync('/home/ec2-user/cert.crt')
+}, app);
+server.listen(PORT, () => {
+	console.log("Server is running on port ", PORT);
 });
