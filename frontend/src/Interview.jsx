@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './Interview.css'
-import RecordingComponent from './VideoRecorder';
 import { getFeedback } from './api';
 
 const Interview = function({ posting, setActiveView }) {
@@ -55,15 +54,12 @@ const Interview = function({ posting, setActiveView }) {
 		if (mediaRecorderRef.current) {
 			mediaRecorderRef.current.stop();
 		}
-		// if (mediaStream) {
-		// 	mediaStream.getTracks().forEach(track => track.stop());
-		// }
     }
 
 	async function getAndDisplayFeedback() {
 		const audioBlob = new Blob(recordedChunks, { type: "audio/webm" });
         const response = await getFeedback(audioBlob, posting.questions[questionIndex], posting);
-		console.log(response);
+		setFeedback(response);
 	}
 
 	function saveRecording() {
@@ -114,7 +110,7 @@ const Interview = function({ posting, setActiveView }) {
 				videoState < 3 ? (
 					<video className="video-feed" ref={videoRef} autoPlay muted />
 				) : (
-					<div>
+					<div className="feedback-section">
 						<p>Clarity: {feedback.clarity}</p>
 						<p>Correctness: {feedback.correctness || "N/A"}</p>
 						<p>Relevance: {feedback.relevance}</p>
