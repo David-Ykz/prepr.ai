@@ -22,9 +22,9 @@ function App() {
 	return (
 		<div>
 			<div className="toolbar">
-				<img onClick={() => setActiveView('browse')} src={logoImage} alt="Banner" className="toolbar-image" style={{ width: '50px', display: 'block' }} />
-				<span onClick={() => setActiveView('browse')} className="toolbar-link">Browse</span>
-				<span onClick={() => setActiveView('upload')} className="toolbar-link">Upload</span>
+				<img onClick={() => setActiveView('browse')} src={logoImage} alt="Banner" className="toolbar-image" />
+				<span onClick={() => setActiveView('browse')} className="toolbar-link">Browse job postings</span>
+				<span onClick={() => setActiveView('upload')} className="toolbar-link">Upload a job posting</span>
 			</div>
 			{displayActiveView()}
 		</div>
