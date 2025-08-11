@@ -52,3 +52,17 @@ export async function getFeedback(audioBlob, question, posting) {
 
     return await response.json();
 }
+
+export async function getImageAnalysis(images) {
+    const formData = new FormData();
+    images.forEach((image, index) => {
+        formData.append('images', image, `${index}.jpg`);
+    });
+
+    const response = await fetch(`${BASE_URL}/feedback/images`, {
+        method: 'POST',
+        body: formData
+    });
+
+    return await response.json();
+}

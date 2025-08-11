@@ -1,15 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './Interview.css'
-import { getFeedback } from './api';
+import { getFeedback, getImageAnalysis } from './api';
 
 const Interview = function({ posting, setActiveView }) {
     const videoRef = useRef(null);
     const mediaRecorderRef = useRef(null);
+	const imageCaptureInterval = useRef(null);
     const [mediaStream, setMediaStream] = useState(null);
     const [recordedChunks, setRecordedChunks] = useState([]);
     const [videoState, setVideoState] = useState(0); // start, stop, get feedback, save, next question
     const [questionIndex, setQuestionIndex] = useState(0);
 	const [feedback, setFeedback] = useState({});
+	const capturedImages = useRef([]);
 
 	async function startupVideoStream() {
 		const stream = await navigator.mediaDevices.getUserMedia({
@@ -45,21 +47,48 @@ const Interview = function({ posting, setActiveView }) {
 			};
 
 			mediaRecorder.start();
+
+			imageCaptureInterval.current = setInterval(() => {
+      			takeSnapshot();
+    		}, 5000);
 		} catch (err) {
 			console.error("Error accessing camera/microphone", err);
 		}
 	}
 
+	function takeSnapshot() {
+		// console.log("Taking snapshot");
+		const video = videoRef.current;
+		const canvas = document.createElement('canvas');
+		canvas.width = video.videoWidth;
+		canvas.height = video.videoHeight;
+		const ctx = canvas.getContext('2d');
+		ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+		canvas.toBlob((blob) => {
+			if (blob) {
+				capturedImages.current.push(blob);
+			}
+		}, 'image/jpeg', 0.9);
+	};
+
 	async function stopRecording() {
 		if (mediaRecorderRef.current) {
 			mediaRecorderRef.current.stop();
 		}
+		if (imageCaptureInterval.current) {
+    		clearInterval(imageCaptureInterval.current);
+      		imageCaptureInterval.current = null;
+    	}
     }
 
 	async function getAndDisplayFeedback() {
 		const audioBlob = new Blob(recordedChunks, { type: "audio/webm" });
         const response = await getFeedback(audioBlob, posting.questions[questionIndex], posting);
+		const res = await getImageAnalysis(capturedImages.current);
+		response.eyeContact = Math.round((1 - res.eyeContact/res.total) * 100);
 		setFeedback(response);
+
 	}
 
 	function saveRecording() {
@@ -79,6 +108,7 @@ const Interview = function({ posting, setActiveView }) {
 		setQuestionIndex(questionIndex + 1);
 		setRecordedChunks([]);
 		startupVideoStream();
+		capturedImages.current = [];
 	}
 
 	async function onRecordButtonClicked() {
@@ -115,6 +145,7 @@ const Interview = function({ posting, setActiveView }) {
 						<p>Correctness: {feedback.correctness || "N/A"}</p>
 						<p>Relevance: {feedback.relevance}</p>
 						<p>Persuasiveness: {feedback.persuasiveness || "N/A"}</p>
+						<p>Eye Contact: {feedback.eyeContact}%</p>
 						<p>Feedback: {feedback.otherFeedback}</p>
 					</div>
 				)
