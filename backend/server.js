@@ -120,14 +120,14 @@ app.post('/feedback/images', mediaUpload.array('images'), async (req, res) => {
 });
 
 
-app.listen(PORT, () => {
-	console.log("Started server on", PORT);
-});
-
-// var server = https.createServer({
-//     key: fs.readFileSync('/home/ec2-user/cert.key'),
-//     cert: fs.readFileSync('/home/ec2-user/cert.crt')
-// }, app);
-// server.listen(PORT, () => {
-// 	console.log("Server is running on port ", PORT);
+// app.listen(PORT, () => {
+// 	console.log("Started server on", PORT);
 // });
+
+var server = https.createServer({
+    key: fs.readFileSync('/home/ec2-user/cert.key'),
+    cert: fs.readFileSync('/home/ec2-user/cert.crt')
+}, app);
+server.listen(PORT, () => {
+	console.log("Server is running on port ", PORT);
+});
