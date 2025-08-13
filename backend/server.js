@@ -5,6 +5,7 @@ import express, { json } from 'express';
 import cors from 'cors';
 import multer from 'multer';
 import https from 'https';
+import fs from 'fs';
 
 const app = express();
 const PORT = 8000;
@@ -123,6 +124,8 @@ app.post('/feedback/images', mediaUpload.array('images'), async (req, res) => {
 // app.listen(PORT, () => {
 // 	console.log("Started server on", PORT);
 // });
+
+console.log("Running server.js")
 
 var server = https.createServer({
     key: fs.readFileSync('/home/ec2-user/cert.key'),
