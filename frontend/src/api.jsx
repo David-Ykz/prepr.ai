@@ -1,4 +1,5 @@
-const BASE_URL = "https://y-backend.com:8000";
+const BASE_URL = "http://localhost:8000";
+// const BASE_URL = "https://y-backend.com:8000";
 
 export async function listJobPostings(filters = { title: "", company: "", tags: [] }) {
     const response = await fetch(`${BASE_URL}/posting/list`, {
