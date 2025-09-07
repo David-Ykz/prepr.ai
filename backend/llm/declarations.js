@@ -2,7 +2,7 @@ import { Type } from '@google/genai';
 
 export const jobPostingTemplate = {
 	name: "create_job_posting_data",
-	description: "Extracts structured data from a job posting.",
+	description: "Extracts structured data from a job posting. If the user has not provided sufficient information, leave all fields blank",
 	parameters: {
 		type: Type.OBJECT,
 		properties: {

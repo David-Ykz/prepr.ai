@@ -20,6 +20,10 @@ app.post('/posting/upload', async (req, res) => {
 		const tags = await getAllTags();
 		const contentWithTags = `${content}\n here are a list of existing tags: ${tags}`
 		const formattedJobPosting = await queryLLM(contentWithTags, jobPostingTemplate);
+		console.log(formattedJobPosting)
+		if (typeof(formattedJobPosting) === "string" || formattedJobPosting.questions.length === 0) {
+			res.json("")
+		} 
 		await storeJobPosting(formattedJobPosting);
 		res.json(formattedJobPosting);
 	} catch (err) {
@@ -121,16 +125,16 @@ app.post('/feedback/images', mediaUpload.array('images'), async (req, res) => {
 });
 
 
-// app.listen(PORT, () => {
-// 	console.log("Started server on", PORT);
-// });
+app.listen(PORT, () => {
+	console.log("Started server on", PORT);
+});
 
 console.log("Running server.js")
 
-var server = https.createServer({
-    key: fs.readFileSync('/home/ec2-user/cert.key'),
-    cert: fs.readFileSync('/home/ec2-user/cert.crt')
-}, app);
-server.listen(PORT, () => {
-	console.log("Server is running on port ", PORT);
-});
+// var server = https.createServer({
+//     key: fs.readFileSync('/home/ec2-user/cert.key'),
+//     cert: fs.readFileSync('/home/ec2-user/cert.crt')
+// }, app);
+// server.listen(PORT, () => {
+// 	console.log("Server is running on port ", PORT);
+// });

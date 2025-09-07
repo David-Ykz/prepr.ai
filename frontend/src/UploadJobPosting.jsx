@@ -5,14 +5,17 @@ import { uploadJobPosting } from './api';
 const UploadJobPosting = function({ setSelectedPosting, setActiveView }) {
 	const [jobPosting, setJobPosting] = useState("");
 
-
     async function onUploadButtonClick() {
         if (jobPosting === "") {
             return;
         }
         const response = await uploadJobPosting(jobPosting);
-        setSelectedPosting(response);
-        setActiveView('interview');
+        if (response === "") {
+            alert("Invalid posting. Please include all details relevant to the job, including skills required and some information about the role and company")
+        } else {
+            setActiveView('interview');
+            setSelectedPosting(response);
+        }
     }
 
 	return (
