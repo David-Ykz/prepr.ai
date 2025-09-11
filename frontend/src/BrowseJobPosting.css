@@ -1,11 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
 
+.job-posting-container {
+    display: flex;
+    flex-direction: row;
+	justify-content: center;
+    align-items: flex-start;
+}
+
 .filter-section {
-	position: absolute;
-	left: 17%;
 	background-color: #fdfef7;
-	width: 20%;
-	height: 50%;
+	width: 300px;
 	font-family: 'Montserrat', sans-serif;
 	padding: 20px;
 }
@@ -36,8 +40,6 @@
 }
 
 .filter-button {
-	position: absolute;
-	top: 450px;
 	font-size: 16px;
 	font-family: 'Montserrat', sans-serif;
 	padding: 8px 15px 8px 15px;
@@ -45,22 +47,25 @@
 	border: 0px;
 	cursor: pointer;
 	background-color: #f8648e;
+	margin-top: 50px;
 }
 
 .filter-button:hover {
 	background-color: #d92d5e;
 }
 
+.posting-section {
+	width: 700px;
+	margin-left: 20px;
+}
 
 .posting-card {
-	width: 800px;
 	height: 150px;
 	background-color: #fdfef7;
 	font-family: 'Montserrat', sans-serif;
 	padding-left: 20px;
 	padding-top: 1px;
 	margin-bottom: 10px;
-	margin-left: 24.5%;
 	border-radius: 4px;
 	cursor: pointer;
 }

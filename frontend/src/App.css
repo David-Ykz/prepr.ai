@@ -6,10 +6,15 @@ body {
 
 .toolbar {
 	display: flex;
-  	align-items: center;
-  	gap: 1rem;
-	margin-left: 17%;
+  	justify-content: center;
 	margin-bottom: 1rem;
+}
+
+.toolbar-contents {
+	display: flex;
+	align-items: center;
+	width: 1055px;
+  	gap: 1rem;
 }
 
 .toolbar-image {

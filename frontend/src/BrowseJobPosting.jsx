@@ -29,7 +29,7 @@ const BrowseJobPosting = function({ setSelectedPosting, setActiveView }) {
 	}
 
 	return (
-		<div className="container">
+		<div className="job-posting-container">
 			<div className="filter-section">
 				<p className="filter-title">Filters</p>
 
@@ -63,17 +63,19 @@ const BrowseJobPosting = function({ setSelectedPosting, setActiveView }) {
 				<button className="filter-button" onClick={onFilterButtonClick}>Apply</button>
 
 			</div>
-			{
-				postings.map((posting, index) => (
-					<div className="posting-card" key={index} onClick={() => onPostingCardClick(posting)}>
-						<p className="posting-title">{posting.title}</p>
-						<p className="posting-text">{posting.company}</p>
-						{posting.tags.map((tag, i) => (
-							<span className="posting-tag" key={i}>{tag}</span>
-						))}
-					</div>
-				))
-			}
+			<div className="posting-section">
+				{
+					postings.map((posting, index) => (
+						<div className="posting-card" key={index} onClick={() => onPostingCardClick(posting)}>
+							<p className="posting-title">{posting.title}</p>
+							<p className="posting-text">{posting.company}</p>
+							{posting.tags.map((tag, i) => (
+								<span className="posting-tag" key={i}>{tag}</span>
+							))}
+						</div>
+					))
+				}
+			</div>
 		</div>
 	)
 };

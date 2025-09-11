@@ -17,7 +17,7 @@ export const jobPostingTemplate = {
 			tags: {
 				type: Type.ARRAY,
 				items: { type: Type.STRING },
-				description: "A list of relevant technical skills or keywords. Do not include soft skills like leadership or communication. Be consistent with the way previous tags were named (ex. avoiding having both Node.js and Node tags). Aim for around 5 tags, with a maximum of 7"
+				description: "A list of relevant technical skills or keywords. Do not include soft skills like leadership or communication. Be consistent with the way previous tags were named (ex. avoiding having both Node.js and Node tags). Aim for around 5-6 tags. Abbreviate tags when possible (ex. NLP instead of natural language processing). Avoid redundant terms like backend development or software engineer"
 			},
 			questions: {
 				type: Type.ARRAY,
